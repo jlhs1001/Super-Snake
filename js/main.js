@@ -52,11 +52,16 @@ canvas.height = 720;
 
 function spawnApple() {
     apple = {
-        "x": Math.floor(Math.random() * canvas.width),
-        "y": Math.floor(Math.random() * canvas.height),
+        "x": Math.floor(Math.random() * canvas.width - 50),
+        "y": Math.floor(Math.random() * canvas.height - 50),
         "width": 32,
         "height": 32
     };
+    if (apple.x < apple.width / 2) {
+        apple.x +=  apple.width / 2
+    } else if (apple.y < apple.width / 2) {
+        apple.y += apple.height / 2
+    }
     ctx.fillStyle = "rgb(255,42,46)";
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
     console.log(apple);
@@ -108,16 +113,16 @@ function update(progress) {
     }
     switch (direction) {
         case 1:
-            player.y += -1 * player.speed;
+            player.y += -1 * player.speed * 2;
             break;
         case 2:
-            player.y += player.speed;
+            player.y += player.speed * 2;
             break;
         case 3:
-            player.x += -1 * player.speed;
+            player.x += -1 * player.speed * 2;
             break;
         case 4:
-            player.x += player.speed;
+            player.x += player.speed * 2;
             break;
     }
     // console.log(`playerX: ${player.x} playerY: ${player.y}`);
