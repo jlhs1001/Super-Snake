@@ -5,8 +5,8 @@ let player = {"x": 50, "y": 50, "width": 50, "height": 50, "speed": 1};
 
 let direction;
 
-canvas.width = 600;
-canvas.height = 550;
+canvas.width = 800;
+canvas.height = 600;
 
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
