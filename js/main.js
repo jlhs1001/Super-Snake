@@ -1,12 +1,12 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
-let player = {"x": 50, "y": 50, "width": 50, "height": 50, "speed": 1};
+let player = {"x": 50, "y": 50, "width": 32, "height": 32, "speed": 1};
 
 let direction;
 
-canvas.width = 800;
-canvas.height = 600;
+canvas.width = 1024;
+canvas.height = 768;
 
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
