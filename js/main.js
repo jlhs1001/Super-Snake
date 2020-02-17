@@ -46,7 +46,16 @@ document.addEventListener("keydown", function (e) {
         case "KeyD":
             direction = 4;
             break;
+    
+        // For development only
+      case "KeyL":
+        player.speed *= 2;
+        break;
+      case "KeyK":
+        player.speed *= .5;
+        break;
     }
+    
 });
 
 function update(progress) {
