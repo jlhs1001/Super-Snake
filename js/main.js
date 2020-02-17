@@ -67,7 +67,7 @@ function update(progress) {
         spawnApple();
         player.speed *= speedIncrement;
         score++;
-        console.log(score)
+        console.log(score);
     }
     switch (direction) {
         case 1:
@@ -92,7 +92,12 @@ function draw() {
     ctx.fillStyle = "rgb(59,255,119)";
     ctx.fillRect(player.x, player.y, player.width, player.height);
     ctx.fillStyle = "red";
-    ctx.fillRect(apple.x, apple.y, apple.width, apple.height)
+    ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
+    ctx.fillStyle = "black";
+    ctx.font = "30px Arial";
+    ctx.fillText(score.toString(), canvas.width / 2 - 50, 30);
+
+    ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 + 15, 30)
 }
 
 function loop(timestamp) {
