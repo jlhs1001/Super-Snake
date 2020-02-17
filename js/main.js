@@ -6,9 +6,12 @@ let score = 0;
 let apple = null;
 let player = null;
 
+let lives = 3;
+
 let speedIncrement = 1.15;
 
 let playerSegments = [];
+
 
 function spawnPlayer(parent = null) {
 
@@ -87,6 +90,15 @@ document.addEventListener("keydown", function (e) {
 });
 
 function update(progress) {
+
+    if (player && (player.x > canvas.width || player.x < 0 || player.y > canvas.height || player.y < 0)) {
+        spawnPlayer();
+        lives--;
+        if (lives <= 0) {
+            console.log("Health Less Than Zero, You Died.");
+        }
+    }
+
     if (player && player.isCollided()) {
         spawnApple();
         spawnPlayer(parent = player);
@@ -118,11 +130,14 @@ function draw() {
     ctx.fillRect(player.x, player.y, player.width, player.height);
     ctx.fillStyle = "red";
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
+
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
-    ctx.fillText(score.toString(), canvas.width / 2 - 50, 30);
+    ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
 
-    ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 + 15, 30)
+    ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 - 170, 30);
+
+    ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
 
 
     for (const p of playerSegments) {
