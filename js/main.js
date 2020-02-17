@@ -1,7 +1,11 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+let score = 0;
+
 let apple = null;
+
+let speedIncrement = 1.15;
 
 let player = {
     "x": 50, "y": 50, "width": 32, "height": 32, "speed": 1, "isCollided": function () {
@@ -46,21 +50,24 @@ document.addEventListener("keydown", function (e) {
         case "KeyD":
             direction = 4;
             break;
-    
+
         // For development only
-      case "KeyL":
-        player.speed *= 2;
-        break;
-      case "KeyK":
-        player.speed *= .5;
-        break;
+        case "KeyL":
+            player.speed *= 2;
+            break;
+        case "KeyK":
+            player.speed *= .5;
+            break;
     }
-    
+
 });
 
 function update(progress) {
     if (player.isCollided()) {
-        spawnApple()
+        spawnApple();
+        player.speed *= speedIncrement;
+        score++;
+        console.log(score)
     }
     switch (direction) {
         case 1:
