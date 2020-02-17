@@ -1,12 +1,22 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+let apple = null;
+
 let player = {"x": 50, "y": 50, "width": 32, "height": 32, "speed": 1};
 
 let direction;
 
-canvas.width = 1024;
-canvas.height = 768;
+canvas.width = 1280;
+canvas.height = 720;
+
+function spawnApple() {
+    apple = {"x": (Math.random() * canvas.width), "y": (Math.random() * canvas.height), "width": 32, "height": 32};
+    ctx.fillStyle = "rgb(255,42,46)";
+    ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
+    console.log(apple);
+}
+
 
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
@@ -47,17 +57,24 @@ function draw() {
     // Player
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "rgb(59,255,119)";
-    ctx.fillRect(player.x, player.y, player.width, player.height)
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.fillStyle = "red";
+    ctx.fillRect(apple.x, apple.y, apple.width, apple.height)
 }
 
 function loop(timestamp) {
     let progress = timestamp - lastRender;
 
     update(progress);
+    if (apple === null) {
+        spawnApple();
+    }
     draw();
+
 
     lastRender = timestamp;
     window.requestAnimationFrame(loop)
 }
+
 let lastRender = 0;
 window.requestAnimationFrame(loop);
