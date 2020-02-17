@@ -4,19 +4,44 @@ let ctx = canvas.getContext("2d");
 let score = 0;
 
 let apple = null;
+let player = null;
 
 let speedIncrement = 1.15;
 
-let player = {
-    "x": 50, "y": 50, "width": 32, "height": 32, "speed": 1, "isCollided": function () {
+let playerSegments = [];
+
+function spawnPlayer(parent=null){
+
+
+    player = {
+      parent: parent,
+      x: 50,
+      y: 50,
+      width: 32,
+      height: 32,
+      speed: 1,
+      isCollided: function() {
         if (apple !== null) {
-            return (this.x < apple.x + apple.width &&
-                this.x + this.width > apple.x &&
-                this.y < apple.y + apple.height &&
-                this.y + this.height > apple.y)
+          return (
+            this.x < apple.x + apple.width &&
+            this.x + this.width > apple.x &&
+            this.y < apple.y + apple.height &&
+            this.y + this.height > apple.y
+          );
         }
+      }
+    };
+    if (parent) {
+        player.x = parent.x;
+        player.y = parent.y;
+        player.speed = parent.speed;
+      playerSegments.push(parent);
     }
-};
+    
+
+}
+
+
 
 let direction;
 
@@ -63,8 +88,9 @@ document.addEventListener("keydown", function (e) {
 });
 
 function update(progress) {
-    if (player.isCollided()) {
+    if (player && player.isCollided()) {
         spawnApple();
+        spawnPlayer(parent=player);
         player.speed *= speedIncrement;
         score++;
         console.log(score);
@@ -98,12 +124,21 @@ function draw() {
     ctx.fillText(score.toString(), canvas.width / 2 - 50, 30);
 
     ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 + 15, 30)
+
+
+    for(const p of playerSegments){
+        ctx.fillRect(player.x -50, player.y -50, 32, 32);
+
+    }
 }
 
 function loop(timestamp) {
     let progress = timestamp - lastRender;
 
     update(progress);
+    if (player === null) {
+        spawnPlayer();
+    }    
     if (apple === null) {
         spawnApple();
     }
