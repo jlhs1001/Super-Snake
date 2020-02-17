@@ -51,7 +51,7 @@ document.addEventListener("keydown", function (e) {
 
 function update(progress) {
     if (player.isCollided()) {
-        alert()
+        spawnApple()
     }
     switch (direction) {
         case 1:
