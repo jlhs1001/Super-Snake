@@ -57,10 +57,10 @@ function spawnApple() {
         "width": 32,
         "height": 32
     };
-    if (apple.x < apple.width / 2) {
-        apple.x +=  apple.width / 2
-    } else if (apple.y < apple.width / 2) {
-        apple.y += apple.height / 2
+    if (apple.x < apple.width) {
+        apple.x +=  apple.width
+    } else if (apple.y < apple.width) {
+        apple.y += apple.height
     }
     ctx.fillStyle = "rgb(255,42,46)";
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
