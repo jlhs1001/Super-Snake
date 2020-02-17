@@ -3,7 +3,16 @@ let ctx = canvas.getContext("2d");
 
 let apple = null;
 
-let player = {"x": 50, "y": 50, "width": 32, "height": 32, "speed": 1};
+let player = {
+    "x": 50, "y": 50, "width": 32, "height": 32, "speed": 1, "isCollided": function () {
+        if (apple !== null) {
+            return (this.x < apple.x + apple.width &&
+                this.x + this.width > apple.x &&
+                this.y < apple.y + apple.height &&
+                this.y + this.height > apple.y)
+        }
+    }
+};
 
 let direction;
 
@@ -11,7 +20,12 @@ canvas.width = 1280;
 canvas.height = 720;
 
 function spawnApple() {
-    apple = {"x": (Math.random() * canvas.width), "y": (Math.random() * canvas.height), "width": 32, "height": 32};
+    apple = {
+        "x": Math.floor(Math.random() * canvas.width),
+        "y": Math.floor(Math.random() * canvas.height),
+        "width": 32,
+        "height": 32
+    };
     ctx.fillStyle = "rgb(255,42,46)";
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
     console.log(apple);
@@ -36,6 +50,9 @@ document.addEventListener("keydown", function (e) {
 });
 
 function update(progress) {
+    if (player.isCollided()) {
+        alert()
+    }
     switch (direction) {
         case 1:
             player.y += -1 * player.speed;
