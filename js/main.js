@@ -42,16 +42,17 @@ function spawnPlayer() {
             {x: 128, y: 256},
             {x: 160, y: 256}
         ],
-        speed: 1,
+        speed: 0.2,
         appendToSnake: function () {
-            if(this.snake[-1] === null){return}
+        //     // TODO: The condition below is always false, since '{x: number, y: number}' and 'null' have no overlap
+        //     if(this.snake[-1] === null){return}
 
             let x = this.snake[0].x + (32 * this.snake.length);
             let y = this.snake[0].y + (32 * this.snake.length);
             this.snake.push({x: x, y: y})
         },
         isCollided: function () {
-            result = false;
+            let result = false;
             if (apple === null) {
                 return false;
             }
@@ -64,8 +65,9 @@ function spawnPlayer() {
                     s.y + 32 > apple.y
                 ) {
                     result = true;
+                    score++
                 }
-            })
+            });
             return result;
         }
     }
@@ -80,14 +82,14 @@ function spawnApple() {
         width: 32,
         height: 32
     };
-    if (apple.x < apple.width) {
-        apple.x += apple.width;
-    } else if (apple.y < apple.width) {
-        apple.y += apple.height;
-    }
-    ctx.fillStyle = "rgb(255,42,46)";
-    ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
-    console.log(apple);
+    // if (apple.x < apple.width) {
+    //     apple.x += apple.width;
+    // } else if (apple.y < apple.width) {
+    //     apple.y += apple.height;
+    // }
+    // ctx.fillStyle = "rgb(255,42,46)";
+    // ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
+    // console.log(apple);
 }
 
 
@@ -107,13 +109,30 @@ document.addEventListener("keydown", function (e) {
             break;
 
         // For development only
+            // increase/decrease speed
         case "KeyL":
             player.speed *= 2;
             break;
         case "KeyK":
             player.speed *= 0.5;
             break;
+
+            // increase/decrease snake length
+        case "KeyI":
+            player.appendToSnake();
+            break;
+        case "KeyO":
+            player.shift();
+            break;
+
     }
+    if (player.speed !== 0) {
+        if (e.code === "KeyP")
+        player.speed *= 0;
+    } else if (player.speed === 0) {
+        player.speed += 0.5;
+    }
+
 });
 
 
@@ -131,15 +150,20 @@ function update(progress) {
     }
 
     if (player && player.isCollided()) {
-
+        // Spawns new apple after collision, and new player
         apple = spawnApple();
-        player = spawnPlayer();
+
+
         player.speed *= speedIncrement;
         score++;
-        player.appendToSnake();
         console.log(score);
+
+        player.appendToSnake();
+        console.log(`Snake Length: ${player.snake.length}`)
     }
+
     head = {x: player.snake[0].x, y: player.snake[0].y};
+
     switch (direction) {
         case 1:
             head.y -= dx * player.speed;
@@ -167,14 +191,17 @@ function draw() {
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
+
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
     ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 - 170, 30);
     ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
 
     if (lives <= 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         console.log("Health Less Than Zero, You Died.");
         score = 0;
         lives = 3;
+        gameState = false;
     }
 }
 
