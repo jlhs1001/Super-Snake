@@ -43,6 +43,13 @@ function spawnPlayer() {
             {x: 160, y: 256}
         ],
         speed: 1,
+        appendToSnake: function () {
+            if(this.snake[-1] === null){return}
+
+            let x = this.snake[0].x + (32 * this.snake.length);
+            let y = this.snake[0].y + (32 * this.snake.length);
+            this.snake.push({x: x, y: y})
+        },
         isCollided: function () {
             result = false;
             if (apple === null) {
@@ -129,6 +136,7 @@ function update(progress) {
         player = spawnPlayer();
         player.speed *= speedIncrement;
         score++;
+        player.appendToSnake();
         console.log(score);
     }
     head = {x: player.snake[0].x, y: player.snake[0].y};
