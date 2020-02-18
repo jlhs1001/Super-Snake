@@ -2,8 +2,11 @@ body {
     background-color: gray;
 }
 #canvas {
+    z-index: 10;
     border: solid 1px;
     background-color: white;
     margin-left: auto;
     margin-right: auto;
 }
+
+

@@ -3,6 +3,8 @@ let ctx = canvas.getContext("2d");
 
 let score = 0;
 
+let gameState = true;
+
 let apple = null;
 let player = null;
 
@@ -94,14 +96,13 @@ document.addEventListener("keydown", function (e) {
 
 });
 
+
 function update(progress) {
 
     if (player && (player.x > canvas.width || player.x < 0 || player.y > canvas.height || player.y < 0)) {
         spawnPlayer();
         lives--;
-        if (lives <= 0) {
-            console.log("Health Less Than Zero, You Died.");
-        }
+
     }
 
     if (player && player.isCollided()) {
@@ -144,6 +145,11 @@ function draw() {
 
     ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
 
+    if (lives <= 0) {
+        console.log("Health Less Than Zero, You Died.");
+        score = 0;
+        lives = 3;
+    }
 
     for (const p of playerSegments) {
         ctx.fillRect(player.x - 50, player.y - 50, 32, 32);
@@ -154,13 +160,17 @@ function draw() {
 function loop(timestamp) {
     let progress = timestamp - lastRender;
 
-    update(progress);
+    if (gameState === true) {
+        update(progress);
+    }
+
     if (player === null) {
         spawnPlayer();
     }
     if (apple === null) {
         spawnApple();
     }
+
     draw();
 
 
