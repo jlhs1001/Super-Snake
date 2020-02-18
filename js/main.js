@@ -64,7 +64,6 @@ function spawnPlayer(parent = null) {
         player.x = parent.x;
         player.y = parent.y;
         player.speed = parent.speed;
-        playerSegments.push(parent);
     }
 }
 
@@ -170,11 +169,6 @@ function draw() {
         console.log("Health Less Than Zero, You Died.");
         score = 0;
         lives = 3;
-    }
-
-    for (const p of playerSegments) {
-        ctx.fillRect(player.x - 50, player.y - 50, 32, 32);
-
     }
 }
 
