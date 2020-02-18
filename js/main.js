@@ -7,17 +7,10 @@ let dx = 32;
 
 let gameState = true;
 
-let apple = null;
-let player = null;
-let snake = [
-    {x: 32, y: 256},
-    {x: 64, y: 256},
-    {x: 96, y: 256},
-    {x: 128, y: 256},
-    {x: 160, y: 256}
-];
+let apple = spawnApple();
+let player = spawnPlayer();
 
-let head = {x: snake[0].x + dx, y: snake[0].y};
+let head = {x: player.snake[0].x, y: player.snake[0].y};
 
 function drawSnakePart(snakePart) {
     ctx.fillStyle = "lightgreen";
@@ -28,49 +21,53 @@ function drawSnakePart(snakePart) {
 }
 
 function drawSnake() {
-    snake.forEach(drawSnakePart);
+    player.snake.forEach(drawSnakePart);
 }
 
 function advanceSnake() {
-    snake.unshift(head);
-    snake.pop();
+    player.snake.unshift(head);
+    player.snake.pop();
 }
 
 let lives = 3;
-
 let speedIncrement = 1.15;
 
 
-function spawnPlayer(parent = null) {
-    player = {
-        parent: parent,
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
+function spawnPlayer() {
+    return {
+        snake: [
+            {x: 32, y: 256},
+            {x: 64, y: 256},
+            {x: 96, y: 256},
+            {x: 128, y: 256},
+            {x: 160, y: 256}
+        ],
         speed: 1,
         isCollided: function () {
-            if (apple !== null) {
-                return (
-                    this.x < apple.x + apple.width &&
-                    this.x + this.width > apple.x &&
-                    this.y < apple.y + apple.height &&
-                    this.y + this.height > apple.y
-                );
+            result = false;
+            if (apple === null) {
+                return false;
             }
+
+            this.snake.forEach(function (s) {
+                if (
+                    s.x < apple.x + apple.width &&
+                    s.x + 32 > apple.x &&
+                    s.y < apple.y + apple.height &&
+                    s.y + 32 > apple.y
+                ) {
+                    result = true;
+                }
+            })
+            return result;
         }
-    };
-    if (parent) {
-        player.x = parent.x;
-        player.y = parent.y;
-        player.speed = parent.speed;
     }
 }
 
 let direction;
 
 function spawnApple() {
-    apple = {
+    return {
         x: Math.floor(Math.random() * canvas.width - 32),
         y: Math.floor(Math.random() * canvas.height - 32),
         width: 32,
@@ -117,35 +114,36 @@ function update(progress) {
     advanceSnake();
     if (
         player &&
-        (player.x > canvas.width ||
-            player.x < 0 ||
-            player.y > canvas.height ||
-            player.y < 0)
+        (player.snake[0].x > canvas.width ||
+            player.snake[0].x < 0 ||
+            player.snake[0].y > canvas.height ||
+            player.snake[0].y < 0)
     ) {
         spawnPlayer();
         lives--;
-
     }
 
     if (player && player.isCollided()) {
-        spawnApple();
-        spawnPlayer((parent = player));
+
+        apple = spawnApple();
+        player = spawnPlayer();
         player.speed *= speedIncrement;
         score++;
         console.log(score);
     }
+    head = {x: player.snake[0].x, y: player.snake[0].y};
     switch (direction) {
         case 1:
-            head = {x: snake[0].x, y: snake[0].y - dx};
+            head.y -= dx * player.speed;
             break;
         case 2:
-            head = {x: snake[0].x, y: snake[0].y + dx};
+            head.y += dx * player.speed;
             break;
         case 3:
-            head = {x: snake[0].x - dx, y: snake[0].y};
+            head.x -= dx * player.speed;
             break;
         case 4:
-            head = {x: snake[0].x + dx, y: snake[0].y};
+            head.x += dx * player.speed;
             break;
     }
 
@@ -180,10 +178,10 @@ function loop(timestamp) {
     }
 
     if (player === null) {
-        spawnPlayer();
+        player = spawnPlayer();
     }
     if (apple === null) {
-        spawnApple();
+        apple = spawnApple();
     }
 
     draw();
