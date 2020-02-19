@@ -4,6 +4,7 @@ canvas.width = 800;
 canvas.height = 640;
 let score = 0;
 let dx = 32;
+let speed = 1;
 
 let autoSnake = false;
 
@@ -34,7 +35,7 @@ let gameState = true;
 let apple = spawnApple();
 let player = spawnPlayer();
 
-let head = {x: player.snake[0].x, y: player.snake[0].y};
+let head = {x: player.snake[0].x + dx, y: player.snake[0].y + dx};
 
 function drawSnakePart(snakePart) {
     ctx.fillStyle = "lightgreen";
@@ -69,8 +70,8 @@ function spawnPlayer() {
         speed: 0.2,
         appendToSnake: function () {
 
-            let x = this.snake[0].x + (32 * this.snake.length);
-            let y = this.snake[0].y + (32 * this.snake.length);
+            let x = this.snake[0].x + (32);
+            let y = this.snake[0].y + (32);
             this.snake.push({x: x, y: y})
         },
         isCollided: function () {
@@ -147,16 +148,27 @@ document.addEventListener("keydown", function (e) {
         case "KeyW":
             direction = 1;
             break;
+        case "ArrowUp":
+            direction = 1;
+            break;
         case "KeyS":
+            direction = 2;
+            break;
+        case "ArrowDown":
             direction = 2;
             break;
         case "KeyA":
             direction = 3;
             break;
+        case "ArrowLeft":
+            direction = 3;
+            break;
         case "KeyD":
             direction = 4;
             break;
-
+        case "ArrowRight":
+            direction = 4;
+            break;
         // For development only
 
         // increase/decrease speed
