@@ -1,6 +1,7 @@
 body {
     background-color: gray;
 }
+
 #canvas {
     z-index: 10;
     border: solid 1px;

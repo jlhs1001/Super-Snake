@@ -1,9 +1,23 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 800;
-canvas.height = 600;
+canvas.height = 640;
 let score = 0;
 let dx = 32;
+
+const grid_intervals = [0, 32, 64, 96, 128, 160, 192,
+    224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
+    544, 576, 608, 640, 672, 704, 736, 768, 800, 832,
+    864, 896, 928, 960, 992, 1024, 1056, 1088, 1120];
+
+function toNearestGridInterval(n) {
+    if (n !== grid_intervals) {
+        n--
+    }
+
+
+    return n;
+}
 
 let gameState = true;
 
@@ -44,8 +58,6 @@ function spawnPlayer() {
         ],
         speed: 0.2,
         appendToSnake: function () {
-        //     // TODO: The condition below is always false, since '{x: number, y: number}' and 'null' have no overlap
-        //     if(this.snake[-1] === null){return}
 
             let x = this.snake[0].x + (32 * this.snake.length);
             let y = this.snake[0].y + (32 * this.snake.length);
@@ -65,10 +77,43 @@ function spawnPlayer() {
                     s.y + 32 > apple.y
                 ) {
                     result = true;
-                    score++
                 }
             });
             return result;
+        },
+        autoSnake: function () {
+            let result = 0;
+
+            if (head.x === apple.x) {
+                if (head.y < apple.y) {
+                    console.log('y1', head.x, apple.x);
+
+                    result = 3;
+                } else if (head.y > apple.y) {
+                    console.log('y2', head.x, apple.x);
+
+                    result = 4;
+                }
+            }
+
+            if (head.x < apple.x) {
+                console.log('x1', head.x, apple.x);
+                result = 1;
+            } else if (head.x > apple.x) {
+                console.log('x2', head.x, apple.x);
+                result = 2
+            }
+
+            // } else if (head.y < apple.y) {
+            //     console.log("Y-1");
+            //     result = 3;
+            // } else if (head.y > apple.y) {
+            //     console.log("Y-2");
+            //     result = 4;
+            // }
+
+            return result;
+
         }
     }
 }
@@ -76,20 +121,15 @@ function spawnPlayer() {
 let direction;
 
 function spawnApple() {
+    let x = toNearestGridInterval(Math.floor(Math.random() * canvas.width));
+    let y = toNearestGridInterval(Math.floor(Math.random() * canvas.width));
+
     return {
-        x: Math.floor(Math.random() * canvas.width - 32),
-        y: Math.floor(Math.random() * canvas.height - 32),
+        x: x,
+        y: y,
         width: 32,
         height: 32
     };
-    // if (apple.x < apple.width) {
-    //     apple.x += apple.width;
-    // } else if (apple.y < apple.width) {
-    //     apple.y += apple.height;
-    // }
-    // ctx.fillStyle = "rgb(255,42,46)";
-    // ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
-    // console.log(apple);
 }
 
 
@@ -109,7 +149,8 @@ document.addEventListener("keydown", function (e) {
             break;
 
         // For development only
-            // increase/decrease speed
+
+        // increase/decrease speed
         case "KeyL":
             player.speed *= 2;
             break;
@@ -117,27 +158,41 @@ document.addEventListener("keydown", function (e) {
             player.speed *= 0.5;
             break;
 
-            // increase/decrease snake length
+        // increase/decrease snake length
         case "KeyI":
             player.appendToSnake();
             break;
         case "KeyO":
             player.shift();
             break;
-
+        // activates auto snake movement algorithm
+        case "KeyU":
+            player.autoSnake();
     }
     if (player.speed !== 0) {
         if (e.code === "KeyP")
-        player.speed *= 0;
+            player.speed *= 0;
     } else if (player.speed === 0) {
         player.speed += 0.5;
     }
 
 });
 
+// console.log(player.autoSnake());
 
 function update(progress) {
     advanceSnake();
+
+    if (player.autoSnake() === 1) {
+        head.x += dx;
+    } else if (player.autoSnake() === 2) {
+        head.x -= dx;
+    } else if (player.autoSnake() === 3) {
+        head.y += dx;
+    } else if (player.autoSnake() === 4) {
+        head.y -= dx;
+    }
+
     if (
         player &&
         (player.snake[0].x > canvas.width ||
@@ -147,35 +202,39 @@ function update(progress) {
     ) {
         spawnPlayer();
         lives--;
+
     }
 
+
     if (player && player.isCollided()) {
-        // Spawns new apple after collision, and new player
+        // Spawns new apple after collision
         apple = spawnApple();
 
 
-        player.speed *= speedIncrement;
+        // player.speed *= speedIncrement;
+
+        // score implementation
         score++;
-        console.log(score);
+        // console.log(score);
 
         player.appendToSnake();
-        console.log(`Snake Length: ${player.snake.length}`)
+        // console.log(`Snake Length: ${player.snake.length}`)
     }
 
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
     switch (direction) {
         case 1:
-            head.y -= dx * player.speed;
+            head.y -= dx;
             break;
         case 2:
-            head.y += dx * player.speed;
+            head.y += dx;
             break;
         case 3:
-            head.x -= dx * player.speed;
+            head.x -= dx;
             break;
         case 4:
-            head.x += dx * player.speed;
+            head.x += dx;
             break;
     }
 
@@ -183,6 +242,7 @@ function update(progress) {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
     drawSnake();
     ctx.fillStyle = "rgb(59,255,119)";
