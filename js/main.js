@@ -7,18 +7,26 @@ let dx = 32;
 
 let autoSnake = false;
 
-const grid_intervals = [0, 32, 64, 96, 128, 160, 192,
+const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
-    544, 576, 608, 640, 672, 704, 736, 768, 800, 832,
-    864, 896, 928, 960, 992, 1024, 1056, 1088, 1120];
+    544, 576, 608, 640, 672, 704, 736, 768, 800];
 
-function toNearestGridInterval(n) {
-    if (n !== grid_intervals) {
-        n--
-    }
+const grid_intervalsY = [0, 32, 64, 96, 128, 160, 192,
+    224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
+    544, 576, 608, 640];
 
+// function toNearestGridInterval(n) {
+//     if (n !== grid_intervals) {
+//         n--
+//     }
+//
+//
+//     return n;
+// }
 
-    return n;
+function ranArrayItem(arrayName) {
+    let i = (Math.floor(Math.random() * arrayName.length));
+    return arrayName[i]
 }
 
 let gameState = true;
@@ -123,8 +131,8 @@ function spawnPlayer() {
 let direction;
 
 function spawnApple() {
-    let x = toNearestGridInterval(Math.floor(Math.random() * canvas.width));
-    let y = toNearestGridInterval(Math.floor(Math.random() * canvas.width));
+    let x = (ranArrayItem(grid_intervalsX));
+    let y = (ranArrayItem(grid_intervalsY));
 
     return {
         x: x,
@@ -167,15 +175,16 @@ document.addEventListener("keydown", function (e) {
         case "KeyO":
             player.snake.pop();
             break;
+
         // activates auto snake movement algorithm
         case "KeyU":
             autoSnake = true;
     }
-    if (player.speed !== 0) {
+    if (dx !== 0) {
         if (e.code === "KeyP")
-            player.speed *= 0;
-    } else if (player.speed === 0) {
-        player.speed += 0.5;
+            dx *= 0;
+    } else if (dx === 0) {
+        dx += 32;
     }
 
 });
@@ -198,9 +207,9 @@ function update(progress) {
 
     if (
         player &&
-        (player.snake[0].x > canvas.width - player ||
+        (player.snake[0].x > canvas.width - (dx / 2) ||
             player.snake[0].x < 0 ||
-            player.snake[0].y > canvas.height ||
+            player.snake[0].y > canvas.height - (dx / 2) ||
             player.snake[0].y < 0)
     ) {
         spawnPlayer();
