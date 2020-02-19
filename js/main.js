@@ -9,11 +9,11 @@ let autoSnake = false;
 
 const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
-    544, 576, 608, 640, 672, 704, 736, 768, 800];
+    544, 576, 608, 640, 672, 704, 736, 768];
 
 const grid_intervalsY = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
-    544, 576, 608, 640];
+    544, 576, 608];
 
 // function toNearestGridInterval(n) {
 //     if (n !== grid_intervals) {
@@ -105,12 +105,11 @@ function spawnPlayer() {
                     result = 4;
                 }
             }
-
             if (head.x < apple.x) {
-                console.log('x1', head.x, apple.x);
+                console.log("Snake pos X relative to apple X", 'x1', head.x, apple.x);
                 result = 1;
             } else if (head.x > apple.x) {
-                console.log('x2', head.x, apple.x);
+                console.log("Snake pos Y relative to apple Y", 'x2', head.x, apple.x);
                 result = 2
             }
 
@@ -192,6 +191,7 @@ document.addEventListener("keydown", function (e) {
 // console.log(player.autoSnake());
 
 function update(progress) {
+    console.log("----------APPLE_POS-----------X:", apple.x, "Y:", apple.y);
     advanceSnake();
     if (autoSnake === true) {
         if (player.autoSnake() === 1) {
@@ -221,6 +221,11 @@ function update(progress) {
     if (player && player.isCollided()) {
         // Spawns new apple after collision
         apple = spawnApple();
+        if (apple.x > 800) {
+            console.log("Apple is greater than 800 on the 'x' position.")
+        } else if (apple.y > 640) {
+            console.log("Apple is greater than 640 on the 'y' position.")
+        }
 
 
         // player.speed *= speedIncrement;
