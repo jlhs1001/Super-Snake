@@ -5,6 +5,8 @@ canvas.height = 640;
 let score = 0;
 let dx = 32;
 
+let autoSnake = false;
+
 const grid_intervals = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
     544, 576, 608, 640, 672, 704, 736, 768, 800, 832,
@@ -163,11 +165,11 @@ document.addEventListener("keydown", function (e) {
             player.appendToSnake();
             break;
         case "KeyO":
-            player.shift();
+            player.snake.pop();
             break;
         // activates auto snake movement algorithm
         case "KeyU":
-            player.autoSnake();
+            autoSnake = true;
     }
     if (player.speed !== 0) {
         if (e.code === "KeyP")
@@ -182,20 +184,21 @@ document.addEventListener("keydown", function (e) {
 
 function update(progress) {
     advanceSnake();
-
-    if (player.autoSnake() === 1) {
-        head.x += dx;
-    } else if (player.autoSnake() === 2) {
-        head.x -= dx;
-    } else if (player.autoSnake() === 3) {
-        head.y += dx;
-    } else if (player.autoSnake() === 4) {
-        head.y -= dx;
+    if (autoSnake === true) {
+        if (player.autoSnake() === 1) {
+            head.x += dx;
+        } else if (player.autoSnake() === 2) {
+            head.x -= dx;
+        } else if (player.autoSnake() === 3) {
+            head.y += dx;
+        } else if (player.autoSnake() === 4) {
+            head.y -= dx;
+        }
     }
 
     if (
         player &&
-        (player.snake[0].x > canvas.width ||
+        (player.snake[0].x > canvas.width - player ||
             player.snake[0].x < 0 ||
             player.snake[0].y > canvas.height ||
             player.snake[0].y < 0)
