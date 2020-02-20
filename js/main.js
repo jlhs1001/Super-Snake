@@ -1,5 +1,3 @@
-// TODO: make the pos X/Y round to nearest
-
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 800;
@@ -21,15 +19,6 @@ const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
 const grid_intervalsY = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
     544, 576, 608];
-
-// function toNearestGridInterval(n) {
-//     if (n !== grid_intervals) {
-//         n--
-//     }
-//
-//
-//     return n;
-// }
 
 function ranArrayItem(arrayName) {
     let i = (Math.floor(Math.random() * arrayName.length));
@@ -243,7 +232,7 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
-
+        gameState = false;
         console.log(snakeSelfCollision())
     }
 
