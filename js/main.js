@@ -77,7 +77,6 @@ function advanceSnake() {
 let lives = 3;
 let speedIncrement = 1.15;
 
-
 function spawnPlayer() {
     return {
         snake: [
@@ -216,11 +215,13 @@ document.addEventListener("keydown", function (e) {
             developerMode = true;
             break;
     }
-    if (dx !== 0) {
+    if (gameState === false) {
         if (e.code === "KeyP")
-            dx *= 0;
-    } else if (dx === 0) {
-        dx += 32;
+            gameState = true;
+    } else if (gameState === true) {
+        if (e.code === "KeyP") {
+            gameState = false;
+        }
     }
 
 });
