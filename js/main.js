@@ -52,8 +52,8 @@ function drawSnakePart(snakePart) {
 }
 
 function snakeSelfCollision() {
-    for (let i=0; i<player.snake.length; i++) {
-        if (player.snake[i] === player.snake[i+1]) {
+    for (let i = 0; i < player.snake.length; i++) {
+        if (player.snake[i] === player.snake[i + 1]) {
             return true
         }
     }
@@ -194,10 +194,12 @@ document.addEventListener("keydown", function (e) {
 
         // increase/decrease speed
         case "KeyL":
-            player.speed *= 2;
+            // increases speed
+            tick += 1;
             break;
         case "KeyK":
-            player.speed *= 0.5;
+            // decreases speed
+            tick -= 1;
             break;
 
         // increase/decrease snake length
@@ -236,6 +238,11 @@ function update(progress) {
             head.y -= dx;
         }
     }
+
+    if (snakeSelfCollision() === true) {
+        alert()
+    }
+
     if (developerMode === false) {
         if (wallIsCollided() === true) {
             score--;
@@ -277,21 +284,27 @@ function update(progress) {
 
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
-    switch (direction) {
-        case 1:
+    if (direction === 1) {
+        if (directionState !== "down") {
             head.y -= dx;
-            break;
-        case 2:
+            directionState = "up"
+        }
+    } else if (direction === 2) {
+        if (directionState !== "up") {
             head.y += dx;
-            break;
-        case 3:
+            directionState = "down"
+        }
+    } else if (direction === 3) {
+        if (directionState !== "right") {
             head.x -= dx;
-            break;
-        case 4:
+            directionState = "left"
+        }
+    } else if (direction === 4) {
+        if (directionState !== "left") {
             head.x += dx;
-            break;
+            directionState = "right"
+        }
     }
-
 }
 
 function draw() {
@@ -307,7 +320,7 @@ function draw() {
     ctx.font = "30px Arial";
 
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
-    ctx.fillText(`speed: ${player.speed.toFixed(2)}`, canvas.width / 2 - 170, 30);
+    ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
     ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
 
     if (lives <= 0) {
@@ -319,7 +332,7 @@ function draw() {
     }
 }
 
-let tick = 3;
+let tick = 5;
 let updateTick = 0;
 
 function loop(timestamp) {
