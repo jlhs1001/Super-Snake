@@ -82,10 +82,10 @@ function spawnPlayer() {
     return {
         snake: [
             {x: 32, y: 256},
-            {x: 64, y: 256},
-            {x: 96, y: 256},
-            {x: 128, y: 256},
-            {x: 160, y: 256}
+            // {x: 64, y: 256},
+            // {x: 96, y: 256},
+            // {x: 128, y: 256},
+            // {x: 160, y: 256}
         ],
         speed: 0.2,
         appendToSnake: function () {
