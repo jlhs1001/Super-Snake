@@ -8,6 +8,8 @@ let score = 0;
 let dx = 32;
 let speed = 1;
 
+let developerMode = false;
+
 let directionState;
 
 let autoSnake = false;
@@ -47,6 +49,14 @@ function drawSnakePart(snakePart) {
 
     ctx.fillRect(snakePart.x, snakePart.y, 32, 32);
     ctx.strokeRect(snakePart.x, snakePart.y, 32, 32);
+}
+
+function snakeSelfCollision() {
+    for (let i=0; i<player.snake.length; i++) {
+        if (player.snake[i] === player.snake[i+1]) {
+            return true
+        }
+    }
 }
 
 function drawSnake() {
@@ -124,6 +134,18 @@ function spawnPlayer() {
             return result;
 
         }
+    }
+}
+
+function wallIsCollided() {
+    if (
+        player &&
+        (player.snake[0].x > canvas.width - (dx / 2) ||
+            player.snake[0].x < 0 ||
+            player.snake[0].y > canvas.height - (dx / 2) ||
+            player.snake[0].y < 0)
+    ) {
+        return true
     }
 }
 
@@ -214,19 +236,26 @@ function update(progress) {
             head.y -= dx;
         }
     }
+    if (developerMode === false) {
+        if (wallIsCollided() === true) {
+            score--;
+            gameState = false;
+        }
+    } else if (developerMode === true) {
+        if (
+            player &&
+            player.snake[0].x > canvas.width - (dx / 2)) {
 
-    if (
-        player &&
-        (player.snake[0].x > canvas.width - (dx / 2) ||
-            player.snake[0].x < 0 ||
+            player.snake[0].x = 0 + player.width;
+            console.log("snake X:", player.snake[0].x, "snake Y:", player.snake[0].y)
+        }
+        if (
             player.snake[0].y > canvas.height - (dx / 2) ||
-            player.snake[0].y < 0)
-    ) {
-        spawnPlayer();
-        lives--;
+            player.snake[0].y < 0
+        ) {
 
+        }
     }
-
 
     if (player && player.isCollided()) {
         // Spawns new apple after collision
@@ -298,7 +327,6 @@ function loop(timestamp) {
     if (gameState === true) {
 
         if (updateTick === tick) {
-            console.log("################################");
             update(progress);
             updateTick = 0;
         }
