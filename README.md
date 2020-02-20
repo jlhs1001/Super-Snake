@@ -15,3 +15,4 @@
 > You can activate developer mode with `KeyJ` <br>
 > Note: this feature is currently a WIP. <PLACEHOLDER>
 >
+> Developer mode gets rid of collisions

@@ -53,8 +53,13 @@ function drawSnakePart(snakePart) {
 
 function snakeSelfCollision() {
     for (let i = 0; i < player.snake.length; i++) {
-        if (player.snake[i] === player.snake[i + 1]) {
-            return true
+        try {
+            if (head.x === player.snake[i + 1].x && head.y === player.snake[i + 1].y) {
+                return true
+            }
+        }
+        catch (e) {
+            return false
         }
     }
 }
@@ -122,14 +127,6 @@ function spawnPlayer() {
             } else if (head.x > apple.x) {
                 result = 2
             }
-
-            // } else if (head.y < apple.y) {
-            //     console.log("Y-1");
-            //     result = 3;
-            // } else if (head.y > apple.y) {
-            //     console.log("Y-2");
-            //     result = 4;
-            // }
 
             return result;
 
@@ -213,6 +210,11 @@ document.addEventListener("keydown", function (e) {
         // activates auto snake movement algorithm
         case "KeyU":
             autoSnake = true;
+            break;
+        // activate developer mode
+        case "KeyJ":
+            developerMode = true;
+            break;
     }
     if (dx !== 0) {
         if (e.code === "KeyP")
@@ -240,7 +242,8 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
-        alert()
+
+        console.log(snakeSelfCollision())
     }
 
     if (developerMode === false) {
@@ -249,18 +252,16 @@ function update(progress) {
             gameState = false;
         }
     } else if (developerMode === true) {
-        if (
-            player &&
-            player.snake[0].x > canvas.width - (dx / 2)) {
-
-            player.snake[0].x = 0 + player.width;
-            console.log("snake X:", player.snake[0].x, "snake Y:", player.snake[0].y)
+        if (player && head.x > canvas.width) {
+            head.x = 0;
+        } else if (player && head.x < 0) {
+            head.x = canvas.width
         }
-        if (
-            player.snake[0].y > canvas.height - (dx / 2) ||
-            player.snake[0].y < 0
-        ) {
 
+        if (player &&  head.y > canvas.height) {
+            head.y = 0
+        } else if (player && head.y < 0) {
+            head.y = canvas.height
         }
     }
 
