@@ -1,3 +1,5 @@
+// TODO: make the pos X/Y round to nearest
+
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 800;
@@ -5,6 +7,8 @@ canvas.height = 640;
 let score = 0;
 let dx = 32;
 let speed = 1;
+
+let directionState;
 
 let autoSnake = false;
 
@@ -35,7 +39,7 @@ let gameState = true;
 let apple = spawnApple();
 let player = spawnPlayer();
 
-let head = {x: player.snake[0].x + dx, y: player.snake[0].y + dx};
+let head = {x: player.snake[0].x, y: player.snake[0].y};
 
 function drawSnakePart(snakePart) {
     ctx.fillStyle = "lightgreen";
@@ -50,6 +54,7 @@ function drawSnake() {
 }
 
 function advanceSnake() {
+
     player.snake.unshift(head);
     player.snake.pop();
 }
@@ -97,20 +102,14 @@ function spawnPlayer() {
 
             if (head.x === apple.x) {
                 if (head.y < apple.y) {
-                    console.log('y1', head.x, apple.x);
-
                     result = 3;
                 } else if (head.y > apple.y) {
-                    console.log('y2', head.x, apple.x);
-
                     result = 4;
                 }
             }
             if (head.x < apple.x) {
-                console.log("Snake pos X relative to apple X", 'x1', head.x, apple.x);
                 result = 1;
             } else if (head.x > apple.x) {
-                console.log("Snake pos Y relative to apple Y", 'x2', head.x, apple.x);
                 result = 2
             }
 
@@ -203,7 +202,6 @@ document.addEventListener("keydown", function (e) {
 // console.log(player.autoSnake());
 
 function update(progress) {
-    console.log("----------APPLE_POS-----------X:", apple.x, "Y:", apple.y);
     advanceSnake();
     if (autoSnake === true) {
         if (player.autoSnake() === 1) {
@@ -234,9 +232,7 @@ function update(progress) {
         // Spawns new apple after collision
         apple = spawnApple();
         if (apple.x > 800) {
-            console.log("Apple is greater than 800 on the 'x' position.")
         } else if (apple.y > 640) {
-            console.log("Apple is greater than 640 on the 'y' position.")
         }
 
 
@@ -294,12 +290,21 @@ function draw() {
     }
 }
 
+let tick = 3;
+let updateTick = 0;
+
 function loop(timestamp) {
     let progress = timestamp - lastRender;
-
     if (gameState === true) {
-        update(progress);
+
+        if (updateTick === tick) {
+            console.log("################################");
+            update(progress);
+            updateTick = 0;
+        }
     }
+    updateTick++;
+
 
     if (player === null) {
         player = spawnPlayer();
