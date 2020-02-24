@@ -241,6 +241,7 @@ function update(progress) {
         if (wallIsCollided() === true) {
             score--;
             gameState = false;
+            lives--;
         }
     } else if (developerMode === true) {
         if (player && head.x > canvas.width) {
