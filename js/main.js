@@ -1,10 +1,10 @@
+let snakeImage = document.getElementById("snake");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 640;
 let score = 0;
 let dx = 32;
-let speed = 1;
 
 let developerMode = false;
 
@@ -44,10 +44,12 @@ function snakeSelfCollision() {
     for (let i = 0; i < player.snake.length; i++) {
         try {
             if (head.x === player.snake[i + 1].x && head.y === player.snake[i + 1].y) {
-                return true
+                if (developerMode === false) {
+                    return true
+                }
+
             }
-        }
-        catch (e) {
+        } catch (e) {
             return false
         }
     }
@@ -64,7 +66,6 @@ function advanceSnake() {
 }
 
 let lives = 3;
-let speedIncrement = 1.15;
 
 function spawnPlayer() {
     return {
@@ -248,7 +249,7 @@ function update(progress) {
             head.x = canvas.width
         }
 
-        if (player &&  head.y > canvas.height) {
+        if (player && head.y > canvas.height) {
             head.y = 0
         } else if (player && head.y < 0) {
             head.y = canvas.height
@@ -311,8 +312,16 @@ function draw() {
     ctx.font = "30px Arial";
 
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
+
     ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
     ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
+    let imgDistance = 520;
+    let snakeImgWidthHeight = 55;
+
+    for (let i = 0; i < lives; i++) {
+        ctx.drawImage(snakeImage, imgDistance, 0, snakeImgWidthHeight, snakeImgWidthHeight);
+        imgDistance += snakeImgWidthHeight;
+    }
 
     if (lives <= 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
