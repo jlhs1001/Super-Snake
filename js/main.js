@@ -1,16 +1,27 @@
+let gameOverBox = document.getElementById("gameOverBox");
 let snakeImage = document.getElementById("snake");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+
 canvas.width = 800;
 canvas.height = 640;
-let score = 0;
+
+let score = null;
 let dx = 32;
 
-let developerMode = false;
+let developerMode = null;
 
 let directionState;
 
-let autoSnake = false;
+let autoSnake = null;
+
+let gameState = null;
+
+let apple = null;
+let player = null;
+
+let lives = null;
+
 
 const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
@@ -25,10 +36,25 @@ function ranArrayItem(arrayName) {
     return arrayName[i]
 }
 
-let gameState = true;
+let direction;
 
-let apple = spawnApple();
-let player = spawnPlayer();
+function newGame() {
+    gameOverBox.style.display = "none";
+
+    developerMode = false;
+
+    autoSnake = false;
+
+    apple = spawnApple();
+    player = spawnPlayer();
+
+    lives = 3;
+    score = 0;
+    gameState = true;
+
+}
+
+newGame();
 
 let head = {x: player.snake[0].x, y: player.snake[0].y};
 
@@ -65,7 +91,6 @@ function advanceSnake() {
     player.snake.pop();
 }
 
-let lives = 3;
 
 function spawnPlayer() {
     return {
@@ -76,6 +101,7 @@ function spawnPlayer() {
             // {x: 128, y: 256},
             // {x: 160, y: 256}
         ],
+
         speed: 0.2,
         appendToSnake: function () {
 
@@ -135,7 +161,6 @@ function wallIsCollided() {
     }
 }
 
-let direction;
 
 function spawnApple() {
     let x = (ranArrayItem(grid_intervalsX));
@@ -153,27 +178,35 @@ function spawnApple() {
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
         case "KeyW":
+            autoSnake = false;
             direction = 1;
             break;
         case "ArrowUp":
+            autoSnake = false;
             direction = 1;
             break;
         case "KeyS":
+            autoSnake = false;
             direction = 2;
             break;
         case "ArrowDown":
+            autoSnake = false;
             direction = 2;
             break;
         case "KeyA":
+            autoSnake = false;
             direction = 3;
             break;
         case "ArrowLeft":
+            autoSnake = false;
             direction = 3;
             break;
         case "KeyD":
+            autoSnake = false;
             direction = 4;
             break;
         case "ArrowRight":
+            autoSnake = false;
             direction = 4;
             break;
         // For development only
@@ -216,7 +249,6 @@ document.addEventListener("keydown", function (e) {
 
 });
 
-// console.log(player.autoSnake());
 
 function update(progress) {
     advanceSnake();
@@ -258,21 +290,23 @@ function update(progress) {
     }
 
     if (player && player.isCollided()) {
-        // Spawns new apple after collision
         apple = spawnApple();
-        if (apple.x > 800) {
-        } else if (apple.y > 640) {
-        }
+
+        // TODO: if (apple.x > 800) {
+        // } else if (apple.y > 640) {
+        // }
 
 
-        // player.speed *= speedIncrement;
 
-        // score implementation
         score++;
-        // console.log(score);
 
         player.appendToSnake();
-        // console.log(`Snake Length: ${player.snake.length}`)
+
+    }
+
+    if (gameState === false) {
+        console.log("GAME STATE FALSE");
+        gameOverBox.style.display = "block";
     }
 
     head = {x: player.snake[0].x, y: player.snake[0].y};
@@ -284,6 +318,7 @@ function update(progress) {
         }
     } else if (direction === 2) {
         if (directionState !== "up") {
+            console.log("down");
             head.y += dx;
             directionState = "down"
         }
@@ -295,7 +330,8 @@ function update(progress) {
     } else if (direction === 4) {
         if (directionState !== "left") {
             head.x += dx;
-            directionState = "right"
+            directionState = "right";
+            console.log("right")
         }
     }
 }
@@ -337,17 +373,16 @@ let tick = 5;
 let updateTick = 0;
 
 function loop(timestamp) {
+    console.log("looooooop")
     let progress = timestamp - lastRender;
-    if (gameState === true) {
 
-        if (updateTick === tick) {
+    if (gameState === true) {
+        if (updateTick >= tick) {
             update(progress);
             updateTick = 0;
         }
     }
     updateTick++;
-
-
     if (player === null) {
         player = spawnPlayer();
     }
