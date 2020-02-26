@@ -8,20 +8,13 @@ canvas.height = 640;
 
 let score = null;
 let dx = 32;
-
-let developerMode = null;
-
+let developerMode;
 let directionState;
-
-let autoSnake = null;
-
-let gameState = null;
-
-let apple = null;
-let player = null;
-
-let lives = null;
-
+let autoSnake;
+let gameState;
+let apple;
+let player;
+let lives;
 
 const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
@@ -73,7 +66,6 @@ function snakeSelfCollision() {
                 if (developerMode === false) {
                     return true
                 }
-
             }
         } catch (e) {
             return false
@@ -91,15 +83,10 @@ function advanceSnake() {
     player.snake.pop();
 }
 
-
 function spawnPlayer() {
     return {
         snake: [
             {x: 32, y: 256},
-            // {x: 64, y: 256},
-            // {x: 96, y: 256},
-            // {x: 128, y: 256},
-            // {x: 160, y: 256}
         ],
 
         speed: 0.2,
@@ -142,9 +129,7 @@ function spawnPlayer() {
             } else if (head.x > apple.x) {
                 result = 2
             }
-
             return result;
-
         }
     }
 }
@@ -161,7 +146,6 @@ function wallIsCollided() {
     }
 }
 
-
 function spawnApple() {
     let x = (ranArrayItem(grid_intervalsX));
     let y = (ranArrayItem(grid_intervalsY));
@@ -173,7 +157,6 @@ function spawnApple() {
         height: 32
     };
 }
-
 
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
@@ -210,30 +193,23 @@ document.addEventListener("keydown", function (e) {
             direction = 4;
             break;
         // For development only
-
-        // increase/decrease speed
         case "KeyL":
-            // increases speed
             tick += 1;
             break;
         case "KeyK":
-            // decreases speed
             tick -= 1;
             break;
 
-        // increase/decrease snake length
         case "KeyI":
             player.appendToSnake();
             break;
         case "KeyO":
             player.snake.pop();
-            break;
 
-        // activates auto snake movement algorithm
+            break;
         case "KeyU":
             autoSnake = true;
             break;
-        // activate developer mode
         case "KeyJ":
             developerMode = true;
             break;
@@ -281,7 +257,6 @@ function update(progress) {
         } else if (player && head.x < 0) {
             head.x = canvas.width
         }
-
         if (player && head.y > canvas.height) {
             head.y = 0
         } else if (player && head.y < 0) {
@@ -292,16 +267,9 @@ function update(progress) {
     if (player && player.isCollided()) {
         apple = spawnApple();
 
-        // TODO: if (apple.x > 800) {
-        // } else if (apple.y > 640) {
-        // }
-
-
-
         score++;
 
         player.appendToSnake();
-
     }
 
     if (gameState === false) {
@@ -318,7 +286,6 @@ function update(progress) {
         }
     } else if (direction === 2) {
         if (directionState !== "up") {
-            console.log("down");
             head.y += dx;
             directionState = "down"
         }
@@ -331,14 +298,12 @@ function update(progress) {
         if (directionState !== "left") {
             head.x += dx;
             directionState = "right";
-            console.log("right")
         }
     }
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 
     drawSnake();
     ctx.fillStyle = "rgb(59,255,119)";
@@ -349,7 +314,6 @@ function draw() {
     ctx.font = "30px Arial";
 
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
-
     ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
     ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
     let imgDistance = 520;
@@ -371,9 +335,7 @@ function draw() {
 
 let tick = 5;
 let updateTick = 0;
-
 function loop(timestamp) {
-    console.log("looooooop")
     let progress = timestamp - lastRender;
 
     if (gameState === true) {
@@ -389,9 +351,7 @@ function loop(timestamp) {
     if (apple === null) {
         apple = spawnApple();
     }
-
     draw();
-
     lastRender = timestamp;
     window.requestAnimationFrame(loop);
 }
