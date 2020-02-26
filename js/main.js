@@ -1,10 +1,10 @@
 let gameOverBox = document.getElementById("gameOverBox");
-let snakeImage = document.getElementById("snake");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-
 canvas.width = 800;
 canvas.height = 640;
+
+let snakeBreak = false;
 
 let score = null,
 dx = 32,
@@ -14,6 +14,7 @@ autoSnake,
 gameState,
 apple,
 player;
+
 
 const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
@@ -89,8 +90,8 @@ function drawSnake() {
 
 function advanceSnake() {
 
-    player.snake.unshift(head);
     player.snake.pop();
+    player.snake.unshift(head);
 }
 
 function spawnPlayer() {
@@ -101,10 +102,10 @@ function spawnPlayer() {
 
         speed: 0.2,
         appendToSnake: function () {
+            let x = this.snake[0].x;
+            let y = this.snake[0].y;
 
-            let x = this.snake[0].x + (32);
-            let y = this.snake[0].y + (32);
-            this.snake.push({x: x, y: y})
+            this.snake.push({x: x, y: y});
         },
         isCollided: function () {
             let result = false;
@@ -213,8 +214,8 @@ document.addEventListener("keydown", function (e) {
             break;
         case "KeyO":
             player.snake.pop();
-
             break;
+
         case "KeyU":
             autoSnake = true;
             break;
@@ -232,7 +233,6 @@ document.addEventListener("keydown", function (e) {
     }
 
 });
-
 
 function update(progress) {
 
@@ -314,8 +314,6 @@ function draw() {
 
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
     ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
-    let imgDistance = 520;
-    let snakeImgWidthHeight = 55;
 }
 
 let tick = 5;
@@ -323,10 +321,12 @@ let updateTick = 0;
 function loop(timestamp) {
     let progress = timestamp - lastRender;
 
-    if (gameState === true) {
-        if (updateTick >= tick) {
-            update(progress);
-            updateTick = 0;
+    if (snakeBreak === false) {
+        if (gameState === true) {
+            if (updateTick >= tick) {
+                update(progress);
+                updateTick = 0;
+            }
         }
     }
     updateTick++;
