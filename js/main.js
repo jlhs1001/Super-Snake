@@ -6,15 +6,14 @@ let ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 640;
 
-let score = null;
-let dx = 32;
-let developerMode;
-let directionState;
-let autoSnake;
-let gameState;
-let apple;
-let player;
-let lives;
+let score = null,
+dx = 32,
+developerMode,
+directionState,
+autoSnake,
+gameState,
+apple,
+player;
 
 const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
     224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
@@ -35,13 +34,11 @@ function newGame() {
     gameOverBox.style.display = "none";
 
     developerMode = false;
-
     autoSnake = false;
 
     apple = spawnApple();
     player = spawnPlayer();
 
-    lives = 3;
     score = 0;
     gameState = true;
 
@@ -50,6 +47,19 @@ function newGame() {
 newGame();
 
 let head = {x: player.snake[0].x, y: player.snake[0].y};
+
+function teleportSnake() {
+    if (player && head.x > canvas.width) {
+        head.x = 0;
+    } else if (player && head.x < 0) {
+        head.x = canvas.width
+    }
+    if (player && head.y > canvas.height) {
+        head.y = 0
+    } else if (player && head.y < 0) {
+        head.y = canvas.height
+    }
+}
 
 function drawSnakePart(snakePart) {
     ctx.fillStyle = "lightgreen";
@@ -137,10 +147,8 @@ function spawnPlayer() {
 function wallIsCollided() {
     if (
         player &&
-        (player.snake[0].x > canvas.width - (dx / 2) ||
-            player.snake[0].x < 0 ||
-            player.snake[0].y > canvas.height - (dx / 2) ||
-            player.snake[0].y < 0)
+        (player.snake[0].x > canvas.width - (dx / 2) || player.snake[0].x < 0 ||
+            player.snake[0].y > canvas.height - (dx / 2) || player.snake[0].y < 0)
     ) {
         return true
     }
@@ -227,6 +235,7 @@ document.addEventListener("keydown", function (e) {
 
 
 function update(progress) {
+
     advanceSnake();
     if (autoSnake === true) {
         if (player.autoSnake() === 1) {
@@ -241,27 +250,17 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
+        score--;
+        console.log(snakeSelfCollision());
         gameState = false;
-        console.log(snakeSelfCollision())
     }
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
-            score--;
             gameState = false;
-            lives--;
         }
     } else if (developerMode === true) {
-        if (player && head.x > canvas.width) {
-            head.x = 0;
-        } else if (player && head.x < 0) {
-            head.x = canvas.width
-        }
-        if (player && head.y > canvas.height) {
-            head.y = 0
-        } else if (player && head.y < 0) {
-            head.y = canvas.height
-        }
+        teleportSnake()
     }
 
     if (player && player.isCollided()) {
@@ -315,22 +314,8 @@ function draw() {
 
     ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
     ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
-    ctx.fillText(`Life: ${lives}`, canvas.width / 2 + 15, 30);
     let imgDistance = 520;
     let snakeImgWidthHeight = 55;
-
-    for (let i = 0; i < lives; i++) {
-        ctx.drawImage(snakeImage, imgDistance, 0, snakeImgWidthHeight, snakeImgWidthHeight);
-        imgDistance += snakeImgWidthHeight;
-    }
-
-    if (lives <= 0) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        console.log("Health Less Than Zero, You Died.");
-        score = 0;
-        lives = 3;
-        gameState = false;
-    }
 }
 
 let tick = 5;
@@ -347,8 +332,7 @@ function loop(timestamp) {
     updateTick++;
     if (player === null) {
         player = spawnPlayer();
-    }
-    if (apple === null) {
+    } else if (apple === null) {
         apple = spawnApple();
     }
     draw();

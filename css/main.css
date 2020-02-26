@@ -15,6 +15,7 @@ body {
 }
 
 #gameOverBox {
+    text-align: center;
     width: 420px;
     height: 70px;
     background-color: cornflowerblue;
