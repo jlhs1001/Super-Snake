@@ -1,4 +1,5 @@
-let gameOverBox = document.getElementById("gameOverBox");
+let gameOverButton = document.getElementById("gameOverButton");
+let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 816;
@@ -34,6 +35,7 @@ function ranArrayItem(arrayName) {
 let direction;
 
 function newGame() {
+    player = null;
     gameOverBox.style.display = "none";
 
     developerMode = false;
@@ -45,6 +47,7 @@ function newGame() {
     gameState = true;
 
 }
+
 newGame();
 
 let head = {x: player.snake[0].x, y: player.snake[0].y};
@@ -257,8 +260,14 @@ function update(progress) {
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
-            player = null;
-            gameState = false;
+            gameOverBox.style.display = "block";
+            gameOverButton.onclick = function () {
+
+                direction = null;
+                head.x = gridSize;
+                head.y = gridSize * 8;
+                newGame()
+            }
         }
     } else if (developerMode === true) {
         teleportSnake()
@@ -268,7 +277,6 @@ function update(progress) {
         apple = spawnApple();
 
         score++;
-
         player.appendToSnake();
     }
 
@@ -313,11 +321,10 @@ function draw() {
     ctx.fillStyle = "black";
     ctx.font = "30px Arial";
 
-    ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 300, 30);
-    ctx.fillText(`speed: ${tick}`, canvas.width / 2 - 170, 30);
+    ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 50, 30);
 }
 
-let tick = 5;
+let tick = 4;
 let updateTick = 0;
 
 function loop(timestamp) {

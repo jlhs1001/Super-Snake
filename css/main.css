@@ -2,6 +2,12 @@ body {
     background-color: gray;
 }
 
+#canvasBox {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 #canvas {
     z-index: 10;
     border: solid 1px;
@@ -14,7 +20,8 @@ body {
     display: none;
 }
 
-#gameOverBox {
+#gameOver
+{
     box-shadow: 5px 5px 10px grey;
     border-radius: 8px;
     padding-top: 25px;
@@ -24,6 +31,6 @@ body {
     height: 50px;
     background-color: #cdcdcd;
     position: absolute;
-    left: 190px;
-    top: 240px;
+    margin-left: auto;
+    margin-right: auto;
 }
