@@ -1,28 +1,31 @@
 let gameOverBox = document.getElementById("gameOverBox");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 640;
+canvas.width = 816;
+canvas.height = 616;
 
 let snakeBreak = false;
 
-let score = null,
-dx = 32,
-developerMode,
-directionState,
-autoSnake,
-gameState,
-apple,
-player;
+let score = null;
+const gridSize = 24;
+let developerMode,
+    directionState,
+    autoSnake,
+    gameState,
+    apple,
+    player;
 
 
-const grid_intervalsX = [0, 32, 64, 96, 128, 160, 192,
-    224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
-    544, 576, 608, 640, 672, 704, 736, 768];
 
-const grid_intervalsY = [0, 32, 64, 96, 128, 160, 192,
-    224, 256, 288, 320, 352, 384, 416, 448, 480, 512,
-    544, 576, 608];
+const grid_intervalsX = [];
+
+const grid_intervalsY = [];
+
+[...Array(25).keys()].map(function (i) {
+    grid_intervalsX.push(gridSize * i);
+    grid_intervalsY.push(gridSize * i);
+});
+console.log(grid_intervalsX, grid_intervalsY);
 
 function ranArrayItem(arrayName) {
     let i = (Math.floor(Math.random() * arrayName.length));
@@ -66,8 +69,8 @@ function drawSnakePart(snakePart) {
     ctx.fillStyle = "lightgreen";
     ctx.strokestyle = "darkgreen";
 
-    ctx.fillRect(snakePart.x, snakePart.y, 32, 32);
-    ctx.strokeRect(snakePart.x, snakePart.y, 32, 32);
+    ctx.fillRect(snakePart.x, snakePart.y, gridSize, gridSize);
+    ctx.strokeRect(snakePart.x, snakePart.y, gridSize, gridSize);
 }
 
 function snakeSelfCollision() {
@@ -97,7 +100,7 @@ function advanceSnake() {
 function spawnPlayer() {
     return {
         snake: [
-            {x: 32, y: 256},
+            {x: gridSize, y: gridSize * 6},
         ],
 
         speed: 0.2,
@@ -116,9 +119,9 @@ function spawnPlayer() {
             this.snake.forEach(function (s) {
                 if (
                     s.x < apple.x + apple.width &&
-                    s.x + 32 > apple.x &&
+                    s.x + gridSize > apple.x &&
                     s.y < apple.y + apple.height &&
-                    s.y + 32 > apple.y
+                    s.y + gridSize > apple.y
                 ) {
                     result = true;
                 }
@@ -148,8 +151,8 @@ function spawnPlayer() {
 function wallIsCollided() {
     if (
         player &&
-        (player.snake[0].x > canvas.width - (dx / 2) || player.snake[0].x < 0 ||
-            player.snake[0].y > canvas.height - (dx / 2) || player.snake[0].y < 0)
+        (player.snake[0].x > canvas.width - (gridSize / 2) || player.snake[0].x < 0 ||
+            player.snake[0].y > canvas.height - (gridSize / 2) || player.snake[0].y < 0)
     ) {
         return true
     }
@@ -162,8 +165,8 @@ function spawnApple() {
     return {
         x: x,
         y: y,
-        width: 32,
-        height: 32
+        width: gridSize,
+        height: gridSize
     };
 }
 
@@ -239,13 +242,13 @@ function update(progress) {
     advanceSnake();
     if (autoSnake === true) {
         if (player.autoSnake() === 1) {
-            head.x += dx;
+            head.x += gridSize;
         } else if (player.autoSnake() === 2) {
-            head.x -= dx;
+            head.x -= gridSize;
         } else if (player.autoSnake() === 3) {
-            head.y += dx;
+            head.y += gridSize;
         } else if (player.autoSnake() === 4) {
-            head.y -= dx;
+            head.y -= gridSize;
         }
     }
 
@@ -280,22 +283,22 @@ function update(progress) {
 
     if (direction === 1) {
         if (directionState !== "down") {
-            head.y -= dx;
+            head.y -= gridSize;
             directionState = "up"
         }
     } else if (direction === 2) {
         if (directionState !== "up") {
-            head.y += dx;
+            head.y += gridSize;
             directionState = "down"
         }
     } else if (direction === 3) {
         if (directionState !== "right") {
-            head.x -= dx;
+            head.x -= gridSize;
             directionState = "left"
         }
     } else if (direction === 4) {
         if (directionState !== "left") {
-            head.x += dx;
+            head.x += gridSize;
             directionState = "right";
         }
     }
@@ -318,6 +321,7 @@ function draw() {
 
 let tick = 5;
 let updateTick = 0;
+
 function loop(timestamp) {
     let progress = timestamp - lastRender;
 
