@@ -3,7 +3,7 @@ let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 816;
-canvas.height = 620;
+canvas.height = 624;
 
 let snakeBreak = false;
 
