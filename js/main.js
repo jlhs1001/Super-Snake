@@ -2,7 +2,7 @@ let gameOverBox = document.getElementById("gameOverBox");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = 816;
-canvas.height = 616;
+canvas.height = 620;
 
 let snakeBreak = false;
 
@@ -14,7 +14,6 @@ let developerMode,
     gameState,
     apple,
     player;
-
 
 
 const grid_intervalsX = [];
@@ -42,12 +41,10 @@ function newGame() {
 
     apple = spawnApple();
     player = spawnPlayer();
-
     score = 0;
     gameState = true;
 
 }
-
 newGame();
 
 let head = {x: player.snake[0].x, y: player.snake[0].y};
@@ -260,6 +257,7 @@ function update(progress) {
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
+            player = null;
             gameState = false;
         }
     } else if (developerMode === true) {
