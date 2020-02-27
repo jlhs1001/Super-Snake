@@ -7,10 +7,19 @@ canvas.height = 620;
 
 let snakeBreak = false;
 
+function moveSnake(ifX, ifY, toX, toY) {
+    if (head.x === ifX) {
+        head.x = toX
+    } else if (head.y === ifY) {
+        head.y = toY
+    }
+}
+
 let score = null;
 const gridSize = 24;
 let developerMode,
     directionState,
+    pushScore,
     autoSnake,
     gameState,
     apple,
@@ -33,6 +42,19 @@ function ranArrayItem(arrayName) {
 }
 
 let direction;
+
+function gameOver() {
+    direction = null;
+    gameOverBox.style.display = "block";
+    gameOverButton.onclick = function () {
+
+        direction = null;
+        head.x = gridSize;
+        head.y = gridSize * 8;
+        newGame()
+    };
+    pushScore = true;
+}
 
 function newGame() {
     player = null;
@@ -237,7 +259,14 @@ document.addEventListener("keydown", function (e) {
 
 });
 
+function highestScore() {
+    if (gameState === false) {
+        alert()
+    }
+}
+
 function update(progress) {
+    highestScore();
 
     advanceSnake();
     if (autoSnake === true) {
@@ -253,21 +282,13 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
-        score--;
         console.log(snakeSelfCollision());
-        gameState = false;
+        gameOver()
     }
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
-            gameOverBox.style.display = "block";
-            gameOverButton.onclick = function () {
-
-                direction = null;
-                head.x = gridSize;
-                head.y = gridSize * 8;
-                newGame()
-            }
+            gameOver()
         }
     } else if (developerMode === true) {
         teleportSnake()
