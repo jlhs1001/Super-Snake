@@ -1,3 +1,4 @@
+let leaderBoard = document.getElementById("leaderBoard");
 let gameOverButton = document.getElementById("gameOverButton");
 let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
@@ -19,6 +20,7 @@ let score = null;
 const gridSize = 24;
 let developerMode,
     directionState,
+    highScore,
     pushScore,
     autoSnake,
     gameState,
@@ -258,10 +260,12 @@ document.addEventListener("keydown", function (e) {
     }
 
 });
+highScore = 0;
 
 function highestScore() {
-    if (gameState === false) {
-        alert()
+    if (score > highScore) {
+        leaderBoard.innerHTML = `High Score: ${score}`;
+        highScore = score
     }
 }
 
@@ -301,11 +305,6 @@ function update(progress) {
         player.appendToSnake();
     }
 
-    if (gameState === false) {
-        console.log("GAME STATE FALSE");
-        gameOverBox.style.display = "block";
-    }
-
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
     if (direction === 1) {
@@ -339,10 +338,6 @@ function draw() {
     ctx.fillRect(player.x, player.y, player.width, player.height);
     ctx.fillStyle = "red";
     ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
-    ctx.fillStyle = "black";
-    ctx.font = "30px Arial";
-
-    ctx.fillText(`score: ${score.toString()}`, canvas.width / 2 - 50, 30);
 }
 
 let tick = 4;

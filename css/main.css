@@ -3,13 +3,11 @@ body {
 }
 
 #canvasBox {
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
+    margin-left: 10px;
 }
 
 #canvas {
-    z-index: 10;
     border: solid 1px;
     background-color: white;
     margin-left: auto;
@@ -20,12 +18,15 @@ body {
     display: none;
 }
 
-#gameOver
-{
+#gameOverBox {
+    text-align: center;
+}
+
+#gameOver {
     box-shadow: 5px 5px 10px grey;
     border-radius: 8px;
     padding-top: 25px;
-    z-index: 100000;
+    z-index: 1000000;
     text-align: center;
     width: 420px;
     height: 50px;
@@ -33,4 +34,14 @@ body {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
+}
+
+#leaderBoard {
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px #555555;
+    background-color: #e7e7e7;
+    position: absolute;
+    width: 110px;
+    height: 490px;
+    margin-right: 10px;
 }
