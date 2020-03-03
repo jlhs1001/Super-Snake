@@ -26,7 +26,6 @@ let developerMode,
     apple,
     player;
 
-
 const grid_intervalsX = [];
 
 const grid_intervalsY = [];
