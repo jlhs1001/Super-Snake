@@ -19,7 +19,6 @@ function moveSnake(ifX, ifY, toX, toY) {
 let score = null;
 const gridSize = 24;
 let developerMode,
-    directionState,
     highScore,
     pushScore,
     autoSnake,
@@ -50,7 +49,6 @@ function gameOver() {
     gameOverBox.style.display = "block";
     gameOverButton.onclick = function () {
 
-        direction = null;
         head.x = gridSize;
         head.y = gridSize * 8;
         newGame()
@@ -246,10 +244,17 @@ document.addEventListener("keydown", function (e) {
         case "KeyU":
             autoSnake = true;
             break;
-        case "KeyJ":
-            developerMode = true;
-            break;
     }
+    if (developerMode === false) {
+        if (e.code === "KeyJ") {
+            developerMode = true;
+        }
+    } else if (developerMode === true) {
+        if (e.code === "KeyJ") {
+            developerMode = false;
+        }
+    }
+
     if (gameState === false) {
         if (e.code === "KeyP")
             gameState = true;
@@ -261,16 +266,14 @@ document.addEventListener("keydown", function (e) {
 
 });
 highScore = 0;
-
 function highestScore() {
-    if (score > highScore) {
-        leaderBoard.innerHTML = `High Score: ${score}`;
-        highScore = score
-    }
+    leaderBoard.innerHTML = `High Score: ${highScore} Score: ${score}`;
 }
 
 function update(progress) {
     highestScore();
+
+
 
     advanceSnake();
     if (autoSnake === true) {
@@ -286,13 +289,15 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
+        score = 0;
         console.log(snakeSelfCollision());
         gameOver()
     }
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
-            gameOver()
+            gameOver();
+            score = 0;
         }
     } else if (developerMode === true) {
         teleportSnake()
@@ -300,33 +305,24 @@ function update(progress) {
 
     if (player && player.isCollided()) {
         apple = spawnApple();
-
         score++;
         player.appendToSnake();
+        if (score >= highScore) {
+            highScore = score;
+        }
     }
 
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
-    if (direction === 1) {
-        if (directionState !== "down") {
+    if (direction !== 2 && direction === 1) {
             head.y -= gridSize;
-            directionState = "up"
-        }
-    } else if (direction === 2) {
-        if (directionState !== "up") {
+    } else if (direction !== 1 && direction === 2) {
             head.y += gridSize;
-            directionState = "down"
-        }
-    } else if (direction === 3) {
-        if (directionState !== "right") {
+    } else if (direction !== 4 && direction === 3) {
             head.x -= gridSize;
-            directionState = "left"
-        }
-    } else if (direction === 4) {
-        if (directionState !== "left") {
+    } else if (direction !== 3 && direction === 4) {
             head.x += gridSize;
-            directionState = "right";
-        }
+
     }
 }
 
