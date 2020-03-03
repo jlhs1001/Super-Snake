@@ -273,7 +273,6 @@ function update(progress) {
     highestScore();
 
 
-
     advanceSnake();
     if (autoSnake === true) {
         if (player.autoSnake() === 1) {

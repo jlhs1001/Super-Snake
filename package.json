@@ -1,0 +1,24 @@
+{
+  "name": "superbsnake",
+  "version": "1.0.0",
+  "description": "This is a very superb (passable) snake game.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlhs1001/seetopia.git"
+  },
+  "keywords": [
+    "superb",
+    "snake",
+    "game"
+  ],
+  "author": "jlhs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlhs1001/seetopia/issues"
+  },
+  "homepage": "https://github.com/jlhs1001/seetopia#readme"
+}
