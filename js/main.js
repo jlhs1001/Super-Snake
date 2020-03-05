@@ -6,7 +6,8 @@ let ctx = canvas.getContext("2d");
 console.log(canvas.style.backgroundPositionX);
 canvas.width = 816;
 canvas.height = 624;
-
+let appleTimer = 0,
+    appleTimerMode;
 
 
 let invincibleMode = false;
@@ -33,7 +34,8 @@ let developerMode,
     autoSnake,
     gameState,
     apple,
-    player;
+    player,
+    powerUp;
 
 const grid_intervalsX = [];
 
@@ -73,6 +75,7 @@ function newGame() {
 
     apple = spawnApple();
     player = spawnPlayer();
+    powerUp = spawnPowerUp();
     score = 0;
     gameState = true;
 
@@ -203,6 +206,18 @@ function spawnApple() {
     };
 }
 
+function spawnPowerUp() {
+    let x = (ranArrayItem(grid_intervalsX));
+    let y = (ranArrayItem(grid_intervalsY));
+
+    return {
+        x: x,
+        y: y,
+        width: gridSize,
+        height: gridSize
+    };
+}
+
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
         case "KeyW":
@@ -294,11 +309,25 @@ function highestScore() {
 function update(progress) {
     highestScore();
     if (invincibleMode === true) {
-        score++;
-        pushScore = true;
         developerMode = true;
     }
+    if (appleTimerMode === true) {
 
+        if (appleTimer < 25) {
+            appleTimer++;
+            invincibleMode = true;
+            developerMode = true;
+        } else if (appleTimer > 25) {
+            invincibleMode = false;
+            appleTimerMode = false;
+            appleTimer = 0;
+            developerMode = false;
+        }
+    }
+
+    if (appleTimerMode === true) {
+        appleTimer++
+    }
 
     advanceSnake();
     if (autoSnake === true) {
@@ -331,6 +360,7 @@ function update(progress) {
     if (player && player.isCollided()) {
         apple = spawnApple();
         score++;
+        appleTimerMode = true;
         player.appendToSnake();
         if (score >= highScore) {
             highScore = score;
