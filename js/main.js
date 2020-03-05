@@ -3,10 +3,19 @@ let gameOverButton = document.getElementById("gameOverButton");
 let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+console.log(canvas.style.backgroundPositionX);
 canvas.width = 816;
 canvas.height = 624;
 
+
+
+let invincibleMode = false;
+let hState = false;
+colors = ["red", "green", "orange", "blue", "yellow", "pink", "purple"];
+
 let snakeBreak = false;
+
+leaderBoard.style.backgroundPositionX = canvas.style.backgroundPositionX;
 
 function moveSnake(ifX, ifY, toX, toY) {
     if (head.x === ifX) {
@@ -87,8 +96,11 @@ function teleportSnake() {
 }
 
 function drawSnakePart(snakePart) {
-    ctx.fillStyle = "lightgreen";
-    ctx.strokestyle = "darkgreen";
+    if (invincibleMode === false) {
+        ctx.fillStyle = "lightgreen";
+    } else {
+        ctx.fillStyle = ranArrayItem(colors);
+    }
 
     ctx.fillRect(snakePart.x, snakePart.y, gridSize, gridSize);
     ctx.strokeRect(snakePart.x, snakePart.y, gridSize, gridSize);
@@ -244,6 +256,15 @@ document.addEventListener("keydown", function (e) {
             autoSnake = true;
             break;
     }
+    if (e.code === "KeyY") {
+        hState = true;
+    }
+    if (hState === true) {
+        if (e.code === "KeyH") {
+            invincibleMode = true;
+        }
+    }
+
     if (developerMode === false) {
         if (e.code === "KeyJ") {
             developerMode = true;
@@ -265,13 +286,18 @@ document.addEventListener("keydown", function (e) {
 
 });
 highScore = 0;
+
 function highestScore() {
     leaderBoard.innerHTML = `High Score: ${highScore} Score: ${score}`;
 }
 
 function update(progress) {
     highestScore();
-
+    if (invincibleMode === true) {
+        score++;
+        pushScore = true;
+        developerMode = true;
+    }
 
 
     advanceSnake();
@@ -314,13 +340,13 @@ function update(progress) {
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
     if (direction !== 2 && direction === 1) {
-            head.y -= gridSize;
+        head.y -= gridSize;
     } else if (direction !== 1 && direction === 2) {
-            head.y += gridSize;
+        head.y += gridSize;
     } else if (direction !== 4 && direction === 3) {
-            head.x -= gridSize;
+        head.x -= gridSize;
     } else if (direction !== 3 && direction === 4) {
-            head.x += gridSize;
+        head.x += gridSize;
 
     }
 }
