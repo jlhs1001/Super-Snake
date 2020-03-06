@@ -9,6 +9,7 @@ canvas.height = 624;
 let appleTimer = 0,
     appleTimerMode;
 
+let easterEgg = false;
 
 let invincibleMode = false;
 let hState = false;
@@ -56,9 +57,9 @@ let direction;
 
 function gameOver() {
     direction = null;
+    gameState = false;
     gameOverBox.style.display = "block";
     gameOverButton.onclick = function () {
-
         head.x = gridSize;
         head.y = gridSize * 8;
         newGame()
@@ -271,11 +272,18 @@ document.addEventListener("keydown", function (e) {
             autoSnake = true;
             break;
     }
+    if (gameState === false) {
+        if (e.code === "Escape") {
+            newGame()
+        }
+    }
+
     if (e.code === "KeyY") {
         hState = true;
     }
     if (hState === true) {
         if (e.code === "KeyH") {
+            easterEgg = true;
             invincibleMode = true;
         }
     }
@@ -308,25 +316,31 @@ function highestScore() {
 
 function update(progress) {
     highestScore();
-    if (invincibleMode === true) {
-        developerMode = true;
-    }
-    if (appleTimerMode === true) {
-
-        if (appleTimer < 25) {
-            appleTimer++;
-            invincibleMode = true;
+    if (easterEgg === false) {
+        if (invincibleMode === true) {
             developerMode = true;
-        } else if (appleTimer > 25) {
-            invincibleMode = false;
-            appleTimerMode = false;
-            appleTimer = 0;
-            developerMode = false;
         }
-    }
+        if (appleTimerMode === true) {
 
-    if (appleTimerMode === true) {
-        appleTimer++
+            if (appleTimer < 25) {
+                appleTimer++;
+                invincibleMode = true;
+                developerMode = true;
+            } else if (appleTimer > 25) {
+                invincibleMode = false;
+                appleTimerMode = false;
+                appleTimer = 0;
+                developerMode = false;
+            }
+        }
+
+        if (appleTimerMode === true) {
+            appleTimer++
+        }
+    } else if (easterEgg === true) {
+        if (invincibleMode === true) {
+            developerMode = true;
+        }
     }
 
     advanceSnake();
