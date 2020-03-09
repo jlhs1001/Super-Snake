@@ -10,6 +10,8 @@ let ranValueR;
 let ranValueG;
 let ranValueB;
 
+let timerInt = 0;
+
 canvas.width = 816;
 canvas.height = 624;
 
@@ -317,15 +319,19 @@ document.addEventListener("keydown", function (e) {
 highScore = 0;
 
 function highestScore() {
-    leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 Score: ${score}`;
+    leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score}`;
 }
 
 function update(progress) {
     highestScore();
 
-    ranValueR = Math.floor(Math.random() * 255);
-    ranValueG = Math.floor(Math.random() * 255);
-    ranValueB = Math.floor(Math.random() * 255);
+    if (tick % 4 === 0) {
+        ranValueR = Math.floor(Math.random() * 255);
+        ranValueG = Math.floor(Math.random() * 255);
+        ranValueB = Math.floor(Math.random() * 255);
+    }
+
+
 
     if (easterEgg === false) {
         if (invincibleMode === true) {

@@ -31,24 +31,22 @@ body {
 
 #gameOverBox {
     text-align: center;
-    z-index: 100000000;
-    margin-left: auto;
-    margin-right: auto;
+    z-index: 10000000;
+    margin: auto;
+
 }
 
 #gameOver {
     box-shadow: 5px 5px 10px grey;
     border-radius: 8px;
     padding-top: 25px;
-    z-index: 100000000;
+    z-index: 100000;
     text-align: center;
     width: 420px;
     height: 50px;
     background-color: #cdcdcd;
-    position: relative;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 #leaderBoardBox {
