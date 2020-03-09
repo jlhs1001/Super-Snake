@@ -3,7 +3,7 @@ let gameOverButton = document.getElementById("gameOverButton");
 let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-console.log(canvas.style.backgroundPositionX);
+
 canvas.width = 816;
 canvas.height = 624;
 let appleTimer = 0,

@@ -2,6 +2,10 @@ body {
     background-color: gray;
 }
 
+#apple {
+    display: none;
+}
+
 #canvasBox {
     text-align: center;
     z-index: 1000000;
