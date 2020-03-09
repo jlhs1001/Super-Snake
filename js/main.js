@@ -4,8 +4,15 @@ let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+let img = document.getElementById("apple");
+
+let ranValueR;
+let ranValueG;
+let ranValueB;
+
 canvas.width = 816;
 canvas.height = 624;
+
 let appleTimer = 0,
     appleTimerMode;
 
@@ -13,7 +20,6 @@ let easterEgg = false;
 
 let invincibleMode = false;
 let hState = false;
-colors = ["red", "green", "orange", "blue", "yellow", "pink", "purple"];
 
 let snakeBreak = false;
 
@@ -103,7 +109,7 @@ function drawSnakePart(snakePart) {
     if (invincibleMode === false) {
         ctx.fillStyle = "lightgreen";
     } else {
-        ctx.fillStyle = ranArrayItem(colors);
+        ctx.fillStyle = 'rgb(' + ranValueR + ',' + ranValueG  + ',' + ranValueB + ')'
     }
 
     ctx.fillRect(snakePart.x, snakePart.y, gridSize, gridSize);
@@ -311,11 +317,16 @@ document.addEventListener("keydown", function (e) {
 highScore = 0;
 
 function highestScore() {
-    leaderBoard.innerHTML = `High Score: ${highScore} Score: ${score}`;
+    leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 Score: ${score}`;
 }
 
 function update(progress) {
     highestScore();
+
+    ranValueR = Math.floor(Math.random() * 255);
+    ranValueG = Math.floor(Math.random() * 255);
+    ranValueB = Math.floor(Math.random() * 255);
+
     if (easterEgg === false) {
         if (invincibleMode === true) {
             developerMode = true;
@@ -401,8 +412,8 @@ function draw() {
     drawSnake();
     ctx.fillStyle = "rgb(59,255,119)";
     ctx.fillRect(player.x, player.y, player.width, player.height);
-    ctx.fillStyle = "red";
-    ctx.fillRect(apple.x, apple.y, apple.width, apple.height);
+    ctx.drawImage(img, apple.x, apple.y, apple.width, apple.height);
+
 }
 
 let tick = 4;

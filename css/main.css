@@ -2,23 +2,26 @@ body {
     background-color: gray;
 }
 
+.content {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #apple {
     display: none;
 }
 
 #canvasBox {
+    position: relative;
     text-align: center;
     z-index: 1000000;
-    margin-left: auto;
-    margin-right: auto;
+
 }
 
 #canvas {
     border: solid 1px;
     background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 55px;
+    margin-top: 2px;
     border-radius: 3px;
 }
 
@@ -28,36 +31,45 @@ body {
 
 #gameOverBox {
     text-align: center;
-
+    z-index: 100000000;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #gameOver {
     box-shadow: 5px 5px 10px grey;
     border-radius: 8px;
     padding-top: 25px;
-    z-index: 1000000;
+    z-index: 100000000;
     text-align: center;
     width: 420px;
     height: 50px;
     background-color: #cdcdcd;
-    position: absolute;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
 
 }
 
 #leaderBoardBox {
-    margin-left: 10px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     z-index: 16743;
+    width: 100%;
 }
 
 #leaderBoard {
-    border-radius: 8px;
-    background-color: white;
-    position: absolute;
-    width: 50%;
-    height: 50px;
+    padding-top: 14px;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 5px;
+    /*position: absolute;*/
+    color: black;
+    background-color: white;
+    width: 804px;
+    height: 32px;
+    /*height: 50px;*/
+    /*left: 50%;*/
+    /*transform: translateY(-50%);*/
 }
