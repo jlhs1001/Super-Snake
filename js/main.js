@@ -101,7 +101,6 @@ function ranArrayItem(arrayName) {
     return arrayName[i]
 }
 
-
 let direction;
 
 function gameOver() {
