@@ -269,8 +269,8 @@ function spawnPowerUp() {
 
 document.addEventListener("keydown", function (e) {
     beep.play();
-    if (eliteStart < 0) {
-        e9.play();
+    if (eliteStart === 0) {
+        // e9.play();
         eliteStart++;
     }
     switch (e.code) {
