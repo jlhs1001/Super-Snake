@@ -32,6 +32,8 @@ body {
     text-align: center;
     z-index: 10000000;
     margin: auto;
+    width: 100%;
+    position: absolute;
 
 }
 
@@ -39,7 +41,7 @@ body {
     box-shadow: 5px 5px 10px grey;
     border-radius: 8px;
     padding-top: 25px;
-    z-index: 100000;
+    z-index: 10000000000;
     text-align: center;
     width: 420px;
     height: 50px;

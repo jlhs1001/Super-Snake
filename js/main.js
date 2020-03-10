@@ -4,7 +4,34 @@ let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
+// sound
+let cheer = document.getElementById("cheerSFX");
+let beep = document.getElementById("beepSFX");
+let die = document.getElementById("dieSFX");
+
+//
+
 let img = document.getElementById("apple");
+
+/////////////////////////////////////////////////////////////////
+function getUrlVars() {
+    let vars = {};
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function getUrlParam(parameter, defaultValue) {
+    let urlparameter = defaultValue;
+    if (window.location.href.indexOf(parameter) > -1) {
+        urlparameter = getUrlVars()[parameter];
+    }
+    return urlparameter;
+}
+
+/////////////////////////////////////////////////////
+
 
 let ranValueR;
 let ranValueG;
@@ -62,6 +89,7 @@ function ranArrayItem(arrayName) {
     return arrayName[i]
 }
 
+
 let direction;
 
 function gameOver() {
@@ -112,7 +140,7 @@ function drawSnakePart(snakePart) {
     if (invincibleMode === false) {
         ctx.fillStyle = "lightgreen";
     } else {
-        ctx.fillStyle = 'rgb(' + ranValueR + ',' + ranValueG  + ',' + ranValueB + ')'
+        ctx.fillStyle = 'rgb(' + ranValueR + ',' + ranValueG + ',' + ranValueB + ')'
     }
 
     ctx.fillRect(snakePart.x, snakePart.y, gridSize, gridSize);
@@ -231,34 +259,42 @@ function spawnPowerUp() {
 document.addEventListener("keydown", function (e) {
     switch (e.code) {
         case "KeyW":
+            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "ArrowUp":
+            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "KeyS":
+            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "ArrowDown":
+            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "KeyA":
+            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "ArrowLeft":
+            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "KeyD":
+            beep.play();
             autoSnake = false;
             direction = 4;
             break;
         case "ArrowRight":
+            beep.play();
             autoSnake = false;
             direction = 4;
             break;
@@ -281,6 +317,7 @@ document.addEventListener("keydown", function (e) {
             autoSnake = true;
             break;
     }
+
     if (gameState === false) {
         if (e.code === "Escape") {
             head.x = gridSize;
@@ -322,7 +359,11 @@ document.addEventListener("keydown", function (e) {
 highScore = 0;
 
 function highestScore() {
-    leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score}`;
+    if (getUrlParam("player", false) === "jngs") {
+        leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score} \xa0\xa0\xa0\ ELITE MODE`;
+    } else {
+        leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score}`;
+    }
 }
 
 function update(progress) {
@@ -332,8 +373,9 @@ function update(progress) {
         ranValueR = Math.floor(Math.random() * 255);
         ranValueG = Math.floor(Math.random() * 255);
         ranValueB = Math.floor(Math.random() * 255);
-    }
+    } else if (getUrlParam("player", false) === "nana") {
 
+    }
 
 
     if (easterEgg === false) {
@@ -386,14 +428,20 @@ function update(progress) {
         if (wallIsCollided() === true) {
             gameOver();
             score = 0;
+            die.play();
         }
     } else if (developerMode === true) {
         teleportSnake()
     }
 
     if (player && player.isCollided()) {
+        cheer.play();
         apple = spawnApple();
-        score++;
+        if (getUrlParam("player", false) === "jngs") {
+            score += 0.5;
+        } else {
+            score++;
+        }
         appleTimerMode = true;
         player.appendToSnake();
         if (score >= highScore) {
@@ -448,6 +496,12 @@ function draw() {
 
 let tick = 4;
 let updateTick = 0;
+
+if (getUrlParam("player", false) === "nana") {
+    tick = 8;
+} else if (getUrlParam("player", false) === "jngs") {
+    tick = 3;
+}
 
 function loop(timestamp) {
     let progress = timestamp - lastRender;

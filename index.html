@@ -9,9 +9,6 @@
 <body>
 <img id="apple" src="img/appleNew.png" alt="apple">
 
-<!--<div class="content">-->
-
-
 <div id="gameOverBox">
     <div id="gameOver">
         Game Over<br>
@@ -23,13 +20,22 @@
     <div id="leaderBoardBox">
         <div id="leaderBoard">High Score: 0</div>
     </div>
-
-
     <canvas id="canvas"></canvas>
 </div>
 
+<div class="resources">
 
-<!--</div>-->
+<audio id="beepSFX">
+    <source src="sound/beep.mp3" />
+</audio>
+<audio id="dieSFX">
+    <source src="sound/die.mp3" />
+</audio>
+    <audio id="cheerSFX">
+        <source src="sound/cheer.mp3" />
+    </audio>
+</div>
+
 
 <script src="js/main.js"></script>
 </body>
