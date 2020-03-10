@@ -8,8 +8,20 @@ let ctx = canvas.getContext("2d");
 let cheer = document.getElementById("cheerSFX");
 let beep = document.getElementById("beepSFX");
 let die = document.getElementById("dieSFX");
+// elite mode
+let e1 = document.getElementById("e1");
+let e2 = document.getElementById("e2");
+let e3 = document.getElementById("e3");
+let e4 = document.getElementById("e4");
+let e5 = document.getElementById("e5");
+let e6 = document.getElementById("e6");
+let e7 = document.getElementById("e7");
+let e8 = document.getElementById("e8");
+let e9 = document.getElementById("e9");
 
 //
+
+let eliteStart = 0;
 
 let img = document.getElementById("apple");
 
@@ -107,7 +119,7 @@ function gameOver() {
 function newGame() {
     player = null;
     gameOverBox.style.display = "none";
-
+    lastDirection = null;
     developerMode = false;
     autoSnake = false;
 
@@ -257,44 +269,41 @@ function spawnPowerUp() {
 }
 
 document.addEventListener("keydown", function (e) {
+    beep.play();
+    if (eliteStart < 0) {
+        e9.play();
+        eliteStart++;
+    }
     switch (e.code) {
         case "KeyW":
-            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "ArrowUp":
-            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "KeyS":
-            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "ArrowDown":
-            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "KeyA":
-            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "ArrowLeft":
-            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "KeyD":
-            beep.play();
             autoSnake = false;
             direction = 4;
             break;
         case "ArrowRight":
-            beep.play();
             autoSnake = false;
             direction = 4;
             break;
@@ -435,7 +444,39 @@ function update(progress) {
     }
 
     if (player && player.isCollided()) {
-        cheer.play();
+        if (getUrlParam("player", false) === "elite") {
+            switch (score) {
+                case 0.5:
+                    e1.play();
+                    break;
+                case 1:
+                    e2.play();
+                    break;
+                case 1.5:
+                    e3.play();
+                    break;
+                case 2:
+                    e4.play();
+                    break;
+                case 2.5:
+                    e5.play();
+                    break;
+                case 3:
+                    e6.play();
+                    break;
+                case 3.5:
+                    e7.play();
+                    break;
+                case 4:
+                    e8.play();
+                    break;
+            }
+            if (score > 4) {
+                e9.play();
+            }
+        } else {
+            cheer.play();
+        }
         apple = spawnApple();
         if (getUrlParam("player", false) === "elite") {
             score += 0.5;
