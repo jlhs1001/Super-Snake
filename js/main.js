@@ -359,7 +359,7 @@ document.addEventListener("keydown", function (e) {
 highScore = 0;
 
 function highestScore() {
-    if (getUrlParam("player", false) === "jngs") {
+    if (getUrlParam("player", false) === "elite") {
         leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score} \xa0\xa0\xa0\ ELITE MODE`;
     } else {
         leaderBoard.innerHTML = `High Score: ${highScore} \xa0\xa0\xa0\ Score: ${score}`;
@@ -373,7 +373,7 @@ function update(progress) {
         ranValueR = Math.floor(Math.random() * 255);
         ranValueG = Math.floor(Math.random() * 255);
         ranValueB = Math.floor(Math.random() * 255);
-    } else if (getUrlParam("player", false) === "nana") {
+    } else if (getUrlParam("player", false) === "beginner") {
 
     }
 
@@ -437,7 +437,7 @@ function update(progress) {
     if (player && player.isCollided()) {
         cheer.play();
         apple = spawnApple();
-        if (getUrlParam("player", false) === "jngs") {
+        if (getUrlParam("player", false) === "elite") {
             score += 0.5;
         } else {
             score++;
@@ -497,9 +497,9 @@ function draw() {
 let tick = 4;
 let updateTick = 0;
 
-if (getUrlParam("player", false) === "nana") {
+if (getUrlParam("player", false) === "beginner") {
     tick = 8;
-} else if (getUrlParam("player", false) === "jngs") {
+} else if (getUrlParam("player", false) === "ELITE") {
     tick = 3;
 }
 
