@@ -44,6 +44,7 @@ let developerMode,
     gameState,
     apple,
     player,
+    lastDirection,
     powerUp;
 
 const grid_intervalsX = [];
@@ -282,6 +283,8 @@ document.addEventListener("keydown", function (e) {
     }
     if (gameState === false) {
         if (e.code === "Escape") {
+            head.x = gridSize;
+            head.y = gridSize * 8;
             newGame()
         }
     }
@@ -400,14 +403,35 @@ function update(progress) {
 
     head = {x: player.snake[0].x, y: player.snake[0].y};
 
-    if (direction !== 2 && direction === 1) {
-        head.y -= gridSize;
-    } else if (direction !== 1 && direction === 2) {
-        head.y += gridSize;
-    } else if (direction !== 4 && direction === 3) {
-        head.x -= gridSize;
-    } else if (direction !== 3 && direction === 4) {
-        head.x += gridSize;
+    if (direction === 1) {
+        if (lastDirection === 2) {
+            head.y += gridSize
+        } else {
+            head.y -= gridSize;
+            lastDirection = 1;
+        }
+
+    } else if (direction === 2) {
+        if (lastDirection === 1) {
+            head.y -= gridSize
+        } else {
+            head.y += gridSize;
+            lastDirection = 2;
+        }
+    } else if (direction === 3) {
+        if (lastDirection === 4) {
+            head.x += gridSize;
+        } else {
+            head.x -= gridSize;
+            lastDirection = 3;
+        }
+    } else if (direction === 4) {
+        if (lastDirection === 3) {
+            head.x -= gridSize
+        } else {
+            head.x += gridSize;
+            lastDirection = 4;
+        }
 
     }
 }
