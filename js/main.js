@@ -18,6 +18,7 @@ let e6 = document.getElementById("e6");
 let e7 = document.getElementById("e7");
 let e8 = document.getElementById("e8");
 let e9 = document.getElementById("e9");
+let e10 = document.getElementById("e10");
 
 //
 
@@ -436,7 +437,11 @@ function update(progress) {
         if (wallIsCollided() === true) {
             gameOver();
             score = 0;
-            die.play();
+            if (getUrlParam("player", false) === "elite") {
+                e10.play();
+            } else {
+                die.play();
+            }
         }
     } else if (developerMode === true) {
         teleportSnake()
@@ -445,28 +450,28 @@ function update(progress) {
     if (player && player.isCollided()) {
         if (getUrlParam("player", false) === "elite") {
             switch (score) {
-                case 0.5:
+                case 0:
                     e1.play();
                     break;
-                case 1:
+                case 0.5:
                     e2.play();
                     break;
-                case 1.5:
+                case 1:
                     e3.play();
                     break;
-                case 2:
+                case 1.5:
                     e4.play();
                     break;
-                case 2.5:
+                case 2:
                     e5.play();
                     break;
-                case 3:
+                case 2.5:
                     e6.play();
                     break;
-                case 3.5:
+                case 3:
                     e7.play();
                     break;
-                case 4:
+                case 3.5:
                     e8.play();
                     break;
             }
