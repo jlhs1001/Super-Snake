@@ -3,8 +3,10 @@ let gameOverButton = document.getElementById("gameOverButton");
 let gameOverBox = document.getElementById("gameOver");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+let gameOverWrapper = document.getElementById("gameOverWrapper");
 
 // sound
+let secret = document.getElementById("secretSFX");
 let cheer = document.getElementById("cheerSFX");
 let beep = document.getElementById("beepSFX");
 let die = document.getElementById("dieSFX");
@@ -340,6 +342,7 @@ document.addEventListener("keydown", function (e) {
     }
     if (hState === true) {
         if (e.code === "KeyH") {
+            secret.play();
             easterEgg = true;
             invincibleMode = true;
         }
