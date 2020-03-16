@@ -110,6 +110,7 @@ function gameOver() {
     direction = null;
     gameState = false;
     gameOverBox.style.display = "block";
+    gameOverWrapper.style.display = "block";
     gameOverButton.onclick = function () {
         head.x = gridSize;
         head.y = gridSize * 8;
@@ -119,6 +120,7 @@ function gameOver() {
 }
 
 function newGame() {
+    gameOverWrapper.style.display = "none";
     player = null;
     gameOverBox.style.display = "none";
     lastDirection = null;
