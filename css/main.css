@@ -20,10 +20,6 @@ body {
 }
 
 #canvas {
-    border-left: solid 1px;
-    border-right: solid 1px;
-    border-top: 0;
-    border-bottom: solid 1px;
     background-color: white;
     border-radius: 0 0 3px 3px;
     box-shadow: 3px 5px 5px 3px rgb(85, 80, 80);
@@ -64,7 +60,9 @@ body {
     margin-left: auto;
     margin-right: auto;
     color: lightgrey;
+    padding-bottom: 10px;
     font-family: 'Press Start 2P', cursive;
+    line-height: 20px;
 }
 
 #gameOverButton {
@@ -73,6 +71,7 @@ body {
     cursor: pointer;
     background-color: #676767;
     color: #e6e6e6;
+    margin-bottom: 5px;
 }
 
 #leaderBoardBox {
@@ -93,4 +92,5 @@ body {
     width: 816px;
     height: 32px;
     font-family: 'Press Start 2P', cursive;
+    box-shadow: 3px 5px 5px 3px rgb(85, 80, 80);
 }

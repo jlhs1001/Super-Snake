@@ -21,7 +21,6 @@ let e7 = document.getElementById("e7");
 let e8 = document.getElementById("e8");
 let e9 = document.getElementById("e9");
 let e10 = document.getElementById("e10");
-
 //
 
 let eliteStart = 0;
@@ -280,6 +279,7 @@ document.addEventListener("keydown", function (e) {
     }
     switch (e.code) {
         case "KeyW":
+            window.location.href = "https://jlhs1001.github.io/Super-Snake/?player=elite";
             autoSnake = false;
             direction = 1;
             break;
@@ -480,7 +480,7 @@ function update(progress) {
                     e8.play();
                     break;
             }
-            if (score > 4) {
+            if (score >= 4) {
                 e9.play();
             }
         } else {
