@@ -19,9 +19,13 @@ body {
 }
 
 #canvas {
-    border: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-top: 0;
+    border-bottom: solid 1px;
     background-color: white;
-    border-radius: 3px;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 3px 5px 5px 3px rgb(85, 80, 80);
 }
 
 #snake {
@@ -68,13 +72,10 @@ body {
     padding-top: 14px;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 3px;
-    /*position: absolute;*/
+    border-radius: 3px 3px 0 0;
     color: black;
     background-color: white;
     width: 816px;
     height: 32px;
-    /*height: 50px;*/
-    /*left: 50%;*/
-    /*transform: translateY(-50%);*/
+
 }
