@@ -337,6 +337,14 @@ document.addEventListener("keydown", function (e) {
         }
     }
 
+    if (gameState === false) {
+        if (e.code === "KeyP")
+            gameState = true;
+    } else if (gameState === true) {
+        if (e.code === "KeyP") {
+            gameState = false;
+        }
+    }
 
 
 
@@ -372,14 +380,6 @@ document.addEventListener("keydown", function (e) {
             }
         }
 
-        if (gameState === false) {
-            if (e.code === "KeyP")
-                gameState = true;
-        } else if (gameState === true) {
-            if (e.code === "KeyP") {
-                gameState = false;
-            }
-        }
     }
 
 });
