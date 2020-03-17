@@ -175,9 +175,6 @@ function snakeSelfCollision() {
         }
     }
 }
-document.documentElement.requestFullscreen().then(r => function () {
-
-});
 function drawSnake() {
     player.snake.forEach(drawSnakePart);
 }
