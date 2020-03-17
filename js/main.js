@@ -24,7 +24,7 @@ let e10 = document.getElementById("e10");
 //
 
 let eliteStart = 0;
-
+let soundInt = 0;
 let img = document.getElementById("apple");
 
 /////////////////////////////////////////////////////////////////
@@ -175,7 +175,9 @@ function snakeSelfCollision() {
         }
     }
 }
+document.documentElement.requestFullscreen().then(r => function () {
 
+});
 function drawSnake() {
     player.snake.forEach(drawSnakePart);
 }
@@ -272,100 +274,110 @@ function spawnPowerUp() {
 }
 
 document.addEventListener("keydown", function (e) {
-    beep.play();
     if (eliteStart === 0) {
         // e9.play();
         eliteStart++;
     }
     switch (e.code) {
         case "KeyW":
-            window.location.href = "https://jlhs1001.github.io/Super-Snake/?player=elite";
+            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "ArrowUp":
+            beep.play();
             autoSnake = false;
             direction = 1;
             break;
         case "KeyS":
+            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "ArrowDown":
+            beep.play();
             autoSnake = false;
             direction = 2;
             break;
         case "KeyA":
+            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "ArrowLeft":
+            beep.play();
             autoSnake = false;
             direction = 3;
             break;
         case "KeyD":
+            beep.play();
             autoSnake = false;
             direction = 4;
             break;
         case "ArrowRight":
+            beep.play();
             autoSnake = false;
             direction = 4;
             break;
-        // For development only
-        case "KeyL":
-            tick += 1;
-            break;
-        case "KeyK":
-            tick -= 1;
-            break;
-
-        case "KeyI":
-            player.appendToSnake();
-            break;
-        case "KeyO":
-            player.snake.pop();
-            break;
-
-        case "KeyU":
-            autoSnake = true;
-            break;
     }
+    // For development only
+    if (getUrlParam("player", false) === "dev") {
+        switch (e.code) {
+            case "KeyL":
+                tick += 1;
+                break;
+            case "KeyK":
+                tick -= 1;
+                break;
 
-    if (gameState === false) {
-        if (e.code === "Escape") {
-            head.x = gridSize;
-            head.y = gridSize * 8;
-            newGame()
+            case "KeyI":
+                player.appendToSnake();
+                break;
+            case "KeyO":
+                player.snake.pop();
+                break;
+
+            case "KeyU":
+                autoSnake = true;
+                break;
         }
-    }
 
-    if (e.code === "KeyY") {
-        hState = true;
-    }
-    if (hState === true) {
-        if (e.code === "KeyH") {
-            secret.play();
-            easterEgg = true;
-            invincibleMode = true;
+        if (gameState === false) {
+            if (e.code === "Escape") {
+                head.x = gridSize;
+                head.y = gridSize * 8;
+                newGame()
+            }
         }
-    }
 
-    if (developerMode === false) {
-        if (e.code === "KeyJ") {
-            developerMode = true;
+        if (e.code === "KeyY") {
+            hState = true;
         }
-    } else if (developerMode === true) {
-        if (e.code === "KeyJ") {
-            developerMode = false;
+        if (hState === true) {
+            if (e.code === "KeyH") {
+                secret.play();
+                easterEgg = true;
+                invincibleMode = true;
+            }
         }
-    }
 
-    if (gameState === false) {
-        if (e.code === "KeyP")
-            gameState = true;
-    } else if (gameState === true) {
-        if (e.code === "KeyP") {
-            gameState = false;
+        if (developerMode === false) {
+            if (e.code === "KeyJ") {
+                developerMode = true;
+            }
+        } else if (developerMode === true) {
+            if (e.code === "KeyJ") {
+                developerMode = false;
+            }
+        }
+
+        if (gameState === false) {
+            if (e.code === "KeyP")
+                gameState = true;
+        } else if (gameState === true) {
+            if (e.code === "KeyP") {
+                gameState = false;
+            }
         }
     }
 
@@ -390,7 +402,6 @@ function update(progress) {
     } else if (getUrlParam("player", false) === "beginner") {
 
     }
-
 
     if (easterEgg === false) {
         if (invincibleMode === true) {
@@ -433,6 +444,7 @@ function update(progress) {
     }
 
     if (snakeSelfCollision() === true) {
+        die.play();
         score = 0;
         console.log(snakeSelfCollision());
         gameOver()
@@ -440,6 +452,7 @@ function update(progress) {
 
     if (developerMode === false) {
         if (wallIsCollided() === true) {
+            let die = document.getElementById("dieSFX");
             gameOver();
             score = 0;
             if (getUrlParam("player", false) === "elite") {

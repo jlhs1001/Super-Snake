@@ -1,5 +1,3 @@
-<!-- TODO: make button look nice on game over -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,15 +8,30 @@
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<div id="menu">
+    <div>
+        <div id="eliteButton" onclick="window.location.href='https://jlhs1001.github.io/Super-Snake/?player=elite'">
+            Elite Mode
+        </div>
+        <div id="normalButton" onclick="window.location.href='https://jlhs1001.github.io/Super-Snake/?player='">Normal
+            Mode
+        </div>
+        <div id="beginnerButton"
+             onclick="window.location.href='https://jlhs1001.github.io/Super-Snake/?player=beginner'">Beginner Mode
+        </div>
+    </div>
+</div>
+
 <img id="apple" src="img/appleNew.png" alt="apple">
 
 <div id="gameOverWrapper">
-<div id="gameOverBox">
-    <div id="gameOver">
-        Game Over<br>
-        <button id="gameOverButton" onclick="newGame()">Restart</button>
+    <div id="gameOverBox">
+        <div id="gameOver">
+            Game Over<br>
+            <button id="gameOverButton" onclick="newGame()">Restart</button>
+        </div>
     </div>
-</div>
 </div>
 
 <div id="canvasBox">
@@ -45,45 +58,45 @@
     <!--    -->
     <!--    -->
     <!--    -->
-<!-- 1   -->
+    <!-- 1   -->
     <audio id="e1">
-        <source src="sound/elite/1.mp3" />
+        <source src="sound/elite/1.mp3"/>
     </audio>
-<!-- 2   -->
+    <!-- 2   -->
     <audio id="e2">
-        <source src="sound/elite/2.mp3" />
+        <source src="sound/elite/2.mp3"/>
     </audio>
-<!-- 3   -->
+    <!-- 3   -->
     <audio id="e3">
-        <source src="sound/elite/3.mp3" />
+        <source src="sound/elite/3.mp3"/>
     </audio>
-<!-- 4   -->
+    <!-- 4   -->
     <audio id="e4">
-        <source src="sound/elite/4.mp3" />
+        <source src="sound/elite/4.mp3"/>
     </audio>
-<!-- 5   -->
+    <!-- 5   -->
     <audio id="e5">
-        <source src="sound/elite/5.mp3" />
+        <source src="sound/elite/5.mp3"/>
     </audio>
-<!-- 6   -->
+    <!-- 6   -->
     <audio id="e6">
-        <source src="sound/elite/6.mp3" />
+        <source src="sound/elite/6.mp3"/>
     </audio>
-<!-- 7   -->
+    <!-- 7   -->
     <audio id="e7">
-        <source src="sound/elite/7.mp3" />
+        <source src="sound/elite/7.mp3"/>
     </audio>
-<!-- 8   -->
+    <!-- 8   -->
     <audio id="e8">
-        <source src="sound/elite/8.mp3" />
+        <source src="sound/elite/8.mp3"/>
     </audio>
-<!-- 9   -->
+    <!-- 9   -->
     <audio id="e9">
-        <source src="sound/elite/9.mp3" />
+        <source src="sound/elite/9.mp3"/>
     </audio>
-<!-- 10    -->
+    <!-- 10    -->
     <audio id="e10">
-        <source src="sound/elite/10.mp3" />
+        <source src="sound/elite/10.mp3"/>
     </audio>
 </div>
 

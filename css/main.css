@@ -23,6 +23,7 @@ body {
     background-color: white;
     border-radius: 0 0 3px 3px;
     box-shadow: 3px 5px 5px 3px rgb(85, 80, 80);
+    z-index: 999999999999999999999999;
 }
 
 #snake {
@@ -93,4 +94,35 @@ body {
     height: 32px;
     font-family: 'Press Start 2P', cursive;
     box-shadow: 3px 5px 5px 3px rgb(85, 80, 80);
+}
+
+#menu {
+    overflow: hidden;
+    background-color: #6b6b6b;
+    position: absolute;
+    z-index: 9999999999999999999999;
+    padding: 3px;
+}
+
+#normalButton {
+    background-color: #5a5a5a;
+    cursor: pointer;
+    margin-top: 3px;
+    padding: 3px;
+    color: #e6e6e6;
+}
+
+#beginnerButton {
+    background-color: #5a5a5a;
+    cursor: pointer;
+    margin-top: 3px;
+    padding: 3px;
+    color: #e6e6e6;
+}
+
+#eliteButton {
+    background-color: #5a5a5a;
+    cursor: pointer;
+    padding: 3px;
+    color: #e6e6e6;
 }
