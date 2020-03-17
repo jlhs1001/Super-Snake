@@ -459,7 +459,7 @@ function update(progress) {
             if (getUrlParam("player", false) === "elite") {
                 e10.play();
             } else {
-                die.play();
+                die.play()
             }
         }
     } else if (developerMode === true) {
@@ -563,8 +563,8 @@ let updateTick = 0;
 
 if (getUrlParam("player", false) === "beginner") {
     tick = 8;
-} else if (getUrlParam("player", false) === "ELITE") {
-    tick = 3;
+} else if (getUrlParam("player", false) === "elite") {
+    tick = 2;
 }
 
 function loop(timestamp) {
