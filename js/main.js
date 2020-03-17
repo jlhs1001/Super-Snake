@@ -320,6 +320,29 @@ document.addEventListener("keydown", function (e) {
             direction = 4;
             break;
     }
+
+    if (e.code === "KeyY") {
+        hState = true;
+    }
+    if (hState === true) {
+        if (e.code === "KeyH") {
+            secret.play();
+            easterEgg = true;
+            invincibleMode = true;
+        }
+    }
+
+    if (gameState === false) {
+        if (e.code === "Escape") {
+            head.x = gridSize;
+            head.y = gridSize * 8;
+            newGame()
+        }
+    }
+
+
+
+
     // For development only
     if (getUrlParam("player", false) === "dev") {
         switch (e.code) {
@@ -340,25 +363,6 @@ document.addEventListener("keydown", function (e) {
             case "KeyU":
                 autoSnake = true;
                 break;
-        }
-
-        if (gameState === false) {
-            if (e.code === "Escape") {
-                head.x = gridSize;
-                head.y = gridSize * 8;
-                newGame()
-            }
-        }
-
-        if (e.code === "KeyY") {
-            hState = true;
-        }
-        if (hState === true) {
-            if (e.code === "KeyH") {
-                secret.play();
-                easterEgg = true;
-                invincibleMode = true;
-            }
         }
 
         if (developerMode === false) {
