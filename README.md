@@ -2,6 +2,8 @@
 #
 ## Developer Documentation
 
+> Link to snake page: https://jlhs1001.github.io/Super-Snake/
+
 > ### Increase and decrease snake speed
 > You can increase the speed of the snake by pressing `KeyL`, and decreasing with `KeyK`.
 #
